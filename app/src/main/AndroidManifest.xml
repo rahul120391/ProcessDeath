@@ -11,7 +11,7 @@
         android:name=".views.app.ProcessDeathApp"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.ProcessDeath.NoActionBar">
+        android:theme="@style/Theme.ProcessDeath">
         <activity
             android:name=".views.activity.MainActivity"
             android:exported="true"

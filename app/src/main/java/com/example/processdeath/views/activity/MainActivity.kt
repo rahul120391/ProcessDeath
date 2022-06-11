@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
+import androidx.navigation.findNavController
+import com.example.processdeath.R
 import com.example.processdeath.databinding.ActivityMainBinding
 import com.example.processdeath.views.base.BaseActivity
 import com.example.processdeath.views.extensions.viewBinding

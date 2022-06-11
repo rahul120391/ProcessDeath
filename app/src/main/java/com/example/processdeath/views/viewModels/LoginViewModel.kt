@@ -1,6 +1,5 @@
 package com.example.processdeath.views.viewModels
 
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.domain.Result
 import com.domain.login.LoginUseCase
@@ -16,8 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(private val loginUseCase: LoginUseCase,
-                                         private val utility: Utility,
-                                         private val savedStateHandle:SavedStateHandle):BaseViewModel() {
+                                         private val utility: Utility):BaseViewModel() {
 
 
     private val _onLogin = Channel<String>()

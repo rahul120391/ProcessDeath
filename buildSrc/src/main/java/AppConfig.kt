@@ -8,6 +8,5 @@ object AppConfig {
     const val applicationId = "com.example.processdeath"
     const val gradle = "7.1.2"
     const val kotlin = "1.6.10"
-    const val googlePlayServices = "4.3.8"
     const val dagger = "2.38.1"
 }

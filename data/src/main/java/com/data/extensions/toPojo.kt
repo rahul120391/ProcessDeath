@@ -1,4 +1,4 @@
-package com.data.login.extensions
+package com.data.extensions
 
 import com.google.gson.Gson
 

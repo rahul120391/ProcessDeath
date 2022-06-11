@@ -1,9 +1,11 @@
 package com.example.processdeath.views.di
 
+import com.data.login.repositories.LoginDataStoreRepository
+import com.data.login.repositories.LoginDataStoreRepositoryImpl
 import com.data.login.repositories.LoginRepository
 import com.data.login.repositories.LoginRepositoryImpl
-import com.data.login.repositories.SignUpRepository
-import com.data.login.repositories.SignUpRepositoryImpl
+import com.data.signUp.repositories.SignUpRepository
+import com.data.signUp.repositories.SignUpRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -17,5 +19,8 @@ abstract class RepositoriesDependencies {
     internal abstract fun provideLoginRepoDependency(loginRepositoryImpl: LoginRepositoryImpl):LoginRepository
 
     @Binds
-    internal abstract fun provideSignUpRepoDependency(signUpRepositoryImpl: SignUpRepositoryImpl):SignUpRepository
+    internal abstract fun provideLoginDataStoreRepoDependency(loginDataStoreRepositoryImpl: LoginDataStoreRepositoryImpl):LoginDataStoreRepository
+
+    @Binds
+    internal abstract fun provideSignUpRepoDependency(signUpRepositoryImpl: SignUpRepositoryImpl): SignUpRepository
 }

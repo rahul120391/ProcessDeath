@@ -1,6 +1,6 @@
 package com.domain
 
-import com.data.login.repositories.SignUpRepository
+import com.data.signUp.repositories.SignUpRepository
 import com.example.mylibrary.loginSignUp.LoginSignUpResponse
 import com.model.signup.SignUpBody
 import javax.inject.Inject

@@ -1,6 +1,6 @@
-package com.data.login.datasource
+package com.data.signUp.datasource
 
-import com.data.login.extensions.toPojo
+import com.data.extensions.toPojo
 import com.example.mylibrary.loginSignUp.LoginSignUpResponse
 import com.model.signup.SignUpBody
 import io.ktor.client.*

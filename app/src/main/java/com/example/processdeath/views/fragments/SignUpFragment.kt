@@ -15,13 +15,16 @@ import com.example.processdeath.R
 import com.example.processdeath.databinding.FragmentSignUpBinding
 import com.example.processdeath.databinding.LayoutToolbarCommonBinding
 import com.example.processdeath.views.base.BaseFragment
+import com.example.processdeath.views.extensions.hideKeyboard
 import com.example.processdeath.views.extensions.viewBinding
 import com.example.processdeath.views.extensions.visible
 import com.example.processdeath.views.viewModels.SignUpViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 
+@AndroidEntryPoint
 class SignUpFragment : BaseFragment(R.layout.fragment_sign_up) {
 
      private val binding by viewBinding(FragmentSignUpBinding::bind)
@@ -48,6 +51,7 @@ class SignUpFragment : BaseFragment(R.layout.fragment_sign_up) {
 
     private fun FragmentSignUpBinding.setListeners(){
         btnSignUp.setOnClickListener {
+            context?.let { it1 -> it.hideKeyboard(it1) }
             val name = etName.text.toString()
             val email = etEmail.text.toString()
             val password = etPassword.text.toString()
@@ -120,6 +124,7 @@ class SignUpFragment : BaseFragment(R.layout.fragment_sign_up) {
                         onSignUp.collectLatest {
                                 message->
                             showSnackBar(message)
+                            findNavController().navigate(SignUpFragmentDirections.actionSignUpFragment2ToMainFragment())
                         }
                     }
                 }

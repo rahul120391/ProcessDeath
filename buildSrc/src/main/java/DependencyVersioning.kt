@@ -14,6 +14,7 @@ object DependencyVersioning {
         const val navGraphVersion = "2.4.2"
         const val lifeCycleVersion = "2.4.1"
         const val coroutineAndroidVersion = "1.3.9"
+        const val dataStorePref = "1.0.0"
     }
 
 

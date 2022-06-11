@@ -1,21 +1,23 @@
 package com.data.login.datasource
 
-import com.data.login.extensions.toPojo
+import com.data.extensions.toPojo
 import com.example.mylibrary.loginSignUp.LoginSignUpResponse
 import com.model.login.LoginBody
 import io.ktor.client.*
-import io.ktor.client.call.*
 import io.ktor.client.request.forms.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
 import javax.inject.Inject
 
+
 interface LoginDataSource {
 
-    suspend fun login(loginBody: LoginBody):Result<LoginSignUpResponse>
+    suspend fun login(loginBody: LoginBody):Result<LoginSignUpResponse> = Result.failure(Throwable())
 }
 
-class LoginDataSourceImpl @Inject constructor(private val httpClient:HttpClient):LoginDataSource{
+interface LoginRemoteDataSource:LoginDataSource
+
+class LoginRemoteDataSourceImpl @Inject constructor(private val httpClient:HttpClient):LoginRemoteDataSource{
 
     companion object{
         private  const val LOGIN_END_POINT = "simplelogin.php"
@@ -36,6 +38,4 @@ class LoginDataSourceImpl @Inject constructor(private val httpClient:HttpClient)
               Result.failure(Throwable(e.localizedMessage))
           }
     }
-
-
 }

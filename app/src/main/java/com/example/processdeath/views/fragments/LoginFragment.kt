@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.processdeath.R
 import com.example.processdeath.databinding.FragmentLoginBinding
 import com.example.processdeath.views.base.BaseFragment
+import com.example.processdeath.views.extensions.hideKeyboard
 import com.example.processdeath.views.extensions.viewBinding
 import com.example.processdeath.views.extensions.visible
 import com.example.processdeath.views.viewModels.LoginViewModel
@@ -35,6 +36,7 @@ class LoginFragment : BaseFragment(R.layout.fragment_login){
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        println("bundle is = $savedInstanceState")
         binding.setListeners()
         initObservers()
     }
@@ -42,6 +44,7 @@ class LoginFragment : BaseFragment(R.layout.fragment_login){
 
     private fun FragmentLoginBinding.setListeners(){
         btnLogin.setOnClickListener {
+            context?.let { it1 -> it.hideKeyboard(it1) }
             val email = etEmail.text.toString()
             val password = etPassword.text.toString()
             viewModel.performLogin(email, password)
@@ -105,6 +108,7 @@ class LoginFragment : BaseFragment(R.layout.fragment_login){
                            onLogin.collectLatest {
                                message->
                                showSnackBar(message)
+                               findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToMainFragment())
                            }
                        }
                 }

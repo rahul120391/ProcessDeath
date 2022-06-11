@@ -59,7 +59,6 @@ dependencies {
     implementation(AppDependencies.AndroidDependencies.viewModelDependency)
     implementation(AppDependencies.AndroidDependencies.viewModelSavedDataDependency)
     implementation(AppDependencies.AndroidDependencies.coroutinesAndroidDependency)
-    implementation("androidx.legacy:legacy-support-v4:1.0.0")
     testImplementation(AppDependencies.UnitTestDependencies.junitDependency)
     androidTestImplementation(AppDependencies.UnitTestDependencies.androidXEspressoDependency)
     androidTestImplementation(AppDependencies.UnitTestDependencies.androidXJunitExtensionDependency)

@@ -42,6 +42,7 @@ dependencies {
     implementation(AppDependencies.KotlinDependencies.gsonDependency)
     implementation(AppDependencies.AndroidDependencies.hiltAndroidDependency)
     kapt(AppDependencies.AndroidDependencies.hiltCompilerDependency)
+    api(AppDependencies.AndroidDependencies.dataStorePrefDependency)
     api(project(":entity"))
     api(project(":model"))
 }

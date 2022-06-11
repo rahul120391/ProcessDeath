@@ -24,6 +24,7 @@ object AppDependencies {
         const val viewModelSavedDataDependency = "androidx.lifecycle:lifecycle-viewmodel-savedstate:${DependencyVersioning.AndroidSupportDependenciesVersions.lifeCycleVersion}"
         const val liveDataDependency = "androidx.lifecycle:lifecycle-livedata-ktx:${DependencyVersioning.AndroidSupportDependenciesVersions.lifeCycleVersion}"
         const val coroutinesAndroidDependency = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${DependencyVersioning.AndroidSupportDependenciesVersions.coroutineAndroidVersion}"
+        const val dataStorePrefDependency = "androidx.datastore:datastore-preferences:${DependencyVersioning.AndroidSupportDependenciesVersions.dataStorePref}"
     }
 
 

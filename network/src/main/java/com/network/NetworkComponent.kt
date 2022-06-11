@@ -10,9 +10,9 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object AppComponent {
+object NetworkComponent {
 
-    @Provides
     @Singleton
+    @Provides
     fun providesClient():HttpClient = KtorService.provideClient()
 }

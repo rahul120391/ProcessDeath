@@ -1,13 +1,12 @@
 package com.example.processdeath.views.viewModels
 
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import com.domain.Result
 import com.domain.SignUpUseCase
+import com.example.processdeath.R
 import com.example.processdeath.views.base.BaseViewModel
 import com.example.processdeath.views.utils.Utility
 import com.model.signup.SignUpBody
-import com.domain.Result
-import com.example.processdeath.R
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -16,8 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SignUpViewModel @Inject constructor(private val signUpUseCase: SignUpUseCase,
-                                          private val utility: Utility,
-                                          private val savedStateHandle: SavedStateHandle):BaseViewModel() {
+                                          private val utility: Utility):BaseViewModel() {
 
 
     private val _onSignUp = Channel<String>()

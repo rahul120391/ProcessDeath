@@ -1,6 +1,6 @@
-package com.data.login.repositories
+package com.data.signUp.repositories
 
-import com.data.login.datasource.SignUpDataSource
+import com.data.signUp.datasource.SignUpDataSource
 import com.example.mylibrary.loginSignUp.LoginSignUpResponse
 import com.model.signup.SignUpBody
 import javax.inject.Inject
