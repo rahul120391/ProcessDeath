@@ -66,7 +66,12 @@ class MainFragment : BaseFragment(R.layout.fragment_main), NavigationView.OnNavi
                 }
             }
             initRecyclerView()
-            if(savedInstanceState==null){
+            if(!viewModel.getIsLoading()){
+                viewModel.setIsLoading(true)
+                context?.let { it1 ->
+                    ContextCompat.getColor(
+                        it1,R.color.md_blue_grey_800)
+                }?.let { it2 -> pbBar.root.setIndicatorColor(it2) }
                 viewModel.fetchLatestHeadlines()
             }
             initObservers()
@@ -148,10 +153,6 @@ class MainFragment : BaseFragment(R.layout.fragment_main), NavigationView.OnNavi
                     launch {
                         showProgressBar.collectLatest {
                             layoutError.root.visible(false)
-                            if(it) context?.let { it1 ->
-                                ContextCompat.getColor(
-                                    it1,R.color.md_blue_grey_800)
-                            }?.let { it2 -> pbBar.root.setIndicatorColor(it2) }
                             pbBar.root.visible(it)
                         }
                     }
@@ -163,11 +164,12 @@ class MainFragment : BaseFragment(R.layout.fragment_main), NavigationView.OnNavi
                 }
             }
             headlines.observe(viewLifecycleOwner){
-                  layoutError.root.visible(false)
+                  pbBar.root.visible(false)
                   mainAdapter.updateData(it)
             }
             onFetchError.observe(viewLifecycleOwner){
                 layoutError.root.visible(true)
+                pbBar.root.visible(false)
                 val message = it.first?:getString(R.string.something_went_wrong)
                 val showRetry = it.second
                 layoutError.setData(showRetry,message)

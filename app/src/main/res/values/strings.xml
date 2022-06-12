@@ -26,6 +26,7 @@
     <string name="retry">retry</string>
     <string name="source">Source</string>
     <string name="title">Title</string>
+    <string name="desc">Description</string>
 
     <string-array name="hobbies">
         <item>Cricket</item>

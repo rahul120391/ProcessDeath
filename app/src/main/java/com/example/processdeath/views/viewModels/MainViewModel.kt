@@ -38,6 +38,14 @@ class MainViewModel @Inject constructor(private val loginDataStoreRepository: Lo
 
     val isDialogShowing = savedStateHandle.getLiveData(IS_DIALOG_SHOWING,false)
 
+    private var isLoading:Boolean = false
+
+    fun setIsLoading(isLoading:Boolean){
+        this.isLoading = isLoading
+    }
+
+    fun getIsLoading() = isLoading
+
     fun setLoggedInFalse(){
             viewModelScope.launch {
                 loginDataStoreRepository.saveData(false)
