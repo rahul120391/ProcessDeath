@@ -5,6 +5,7 @@ plugins {
     id("dagger.hilt.android.plugin")
     id("kotlin-parcelize")
     id("androidx.navigation.safeargs")
+    kotlin("plugin.serialization").version("1.6.21")
 }
 apply {
     plugin("kotlin-android")
@@ -49,6 +50,7 @@ dependencies {
 
     implementation(AppDependencies.KotlinDependencies.kotlinCoreDependency)
     implementation(AppDependencies.KotlinDependencies.kotlinCoroutinesDependency)
+    implementation(AppDependencies.KotlinDependencies.coilDependency)
     implementation(AppDependencies.AndroidDependencies.appCompatDependency)
     implementation(AppDependencies.AndroidDependencies.googleMaterialDependency)
     implementation(AppDependencies.AndroidDependencies.constraintLayoutDependency)
@@ -59,6 +61,7 @@ dependencies {
     implementation(AppDependencies.AndroidDependencies.viewModelDependency)
     implementation(AppDependencies.AndroidDependencies.viewModelSavedDataDependency)
     implementation(AppDependencies.AndroidDependencies.coroutinesAndroidDependency)
+    implementation("androidx.legacy:legacy-support-v4:1.0.0")
     testImplementation(AppDependencies.UnitTestDependencies.junitDependency)
     androidTestImplementation(AppDependencies.UnitTestDependencies.androidXEspressoDependency)
     androidTestImplementation(AppDependencies.UnitTestDependencies.androidXJunitExtensionDependency)

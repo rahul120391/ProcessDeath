@@ -6,9 +6,9 @@ import kotlinx.coroutines.flow.receiveAsFlow
 
 abstract class BaseViewModel : ViewModel(){
 
-    val _showProgressBar = Channel<Boolean>()
+    protected val _showProgressBar = Channel<Boolean>()
     val showProgressBar = _showProgressBar.receiveAsFlow()
 
-    val _message = Channel<String?>()
+    protected val _message = Channel<String?>()
     val message = _message.receiveAsFlow()
 }

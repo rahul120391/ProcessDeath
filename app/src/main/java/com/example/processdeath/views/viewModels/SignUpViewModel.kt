@@ -1,8 +1,7 @@
 package com.example.processdeath.views.viewModels
 
 import androidx.lifecycle.viewModelScope
-import com.domain.Result
-import com.domain.SignUpUseCase
+import com.domain.signup.SignUpUseCase
 import com.example.processdeath.R
 import com.example.processdeath.views.base.BaseViewModel
 import com.example.processdeath.views.utils.Utility
@@ -12,6 +11,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import com.domain.base.Result
 
 @HiltViewModel
 class SignUpViewModel @Inject constructor(private val signUpUseCase: SignUpUseCase,

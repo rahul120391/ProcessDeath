@@ -9,6 +9,7 @@ object AppDependencies {
         const val ktorLoggingDependency  ="io.ktor:ktor-client-logging:${DependencyVersioning.KotlinDependenciesVersions.ktorVersion}"
         const val ktorContentNegotiationDependency = "io.ktor:ktor-client-content-negotiation:${DependencyVersioning.KotlinDependenciesVersions.ktorVersion}"
         const val gsonDependency = "com.google.code.gson:gson:${DependencyVersioning.KotlinDependenciesVersions.gsonVersion}"
+        const val coilDependency = "io.coil-kt:coil:${DependencyVersioning.KotlinDependenciesVersions.coilVersion}"
     }
 
     object AndroidDependencies{

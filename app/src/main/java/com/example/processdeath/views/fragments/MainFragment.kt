@@ -6,21 +6,30 @@ import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.mylibrary.main.Article
 import com.example.processdeath.R
 import com.example.processdeath.databinding.FragmentMainBinding
+import com.example.processdeath.databinding.LayoutErrorBinding
 import com.example.processdeath.databinding.LayoutToolbarCommonBinding
+import com.example.processdeath.views.adapters.MainAdapter
 import com.example.processdeath.views.base.BaseFragment
 import com.example.processdeath.views.extensions.viewBinding
+import com.example.processdeath.views.extensions.visible
+import com.example.processdeath.views.utils.CustomOutlineProvider
 import com.example.processdeath.views.utils.Utility
 import com.example.processdeath.views.viewModels.MainViewModel
 import com.google.android.material.navigation.NavigationView
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.lang.ref.WeakReference
 import javax.inject.Inject
@@ -35,6 +44,7 @@ class MainFragment : BaseFragment(R.layout.fragment_main), NavigationView.OnNavi
     @Inject
     lateinit var utility:Utility
 
+    private val mainAdapter by lazy { MainAdapter(onItemClick = ::onItemClick) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,7 +65,28 @@ class MainFragment : BaseFragment(R.layout.fragment_main), NavigationView.OnNavi
                     setUpDrawer(this)
                 }
             }
+            initRecyclerView()
+            if(savedInstanceState==null){
+                viewModel.fetchLatestHeadlines()
+            }
             initObservers()
+        }
+    }
+
+    private fun onItemClick(article: Article){
+        findNavController().navigate(MainFragmentDirections.actionMainFragmentToNewsDetailFragment(article))
+    }
+
+    private fun FragmentMainBinding.initRecyclerView(){
+        with(rvView){
+            setHasFixedSize(true)
+            layoutManager = LinearLayoutManager(context)
+            val itemDecorator = DividerItemDecoration(context,LinearLayoutManager.VERTICAL)
+            ContextCompat.getDrawable(context,R.drawable.vertical_transparent_divider_20dp)
+                ?.let { itemDecorator.setDrawable(it) }
+            addItemDecoration(itemDecorator)
+            adapter = mainAdapter
+            itemAnimator = null
         }
     }
 
@@ -95,18 +126,51 @@ class MainFragment : BaseFragment(R.layout.fragment_main), NavigationView.OnNavi
         }
     }
 
-    private fun initObservers(){
+    private fun LayoutErrorBinding.setData(showRetry:Boolean,text:String){
+        btnRetry.apply {
+            visible(showRetry)
+            outlineProvider = CustomOutlineProvider(10F)
+            setOnClickListener {
+                viewModel.fetchLatestHeadlines()
+            }
+        }
+        txtError.text = text
+    }
+    private fun FragmentMainBinding.initObservers(){
         with(viewModel){
-            lifecycleScope.launch {
-                onLogout.flowWithLifecycle(lifecycle,Lifecycle.State.STARTED).collect{
-                    findNavController().navigate(MainFragmentDirections.actionMainFragmentToLoginFragment())
+            viewLifecycleOwner.lifecycleScope.launch {
+                viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
+                    launch {
+                        onLogout.collectLatest {
+                            findNavController().navigate(MainFragmentDirections.actionMainFragmentToLoginFragment())
+                        }
+                    }
+                    launch {
+                        showProgressBar.collectLatest {
+                            layoutError.root.visible(false)
+                            if(it) context?.let { it1 ->
+                                ContextCompat.getColor(
+                                    it1,R.color.md_blue_grey_800)
+                            }?.let { it2 -> pbBar.root.setIndicatorColor(it2) }
+                            pbBar.root.visible(it)
+                        }
+                    }
                 }
             }
-
             isDialogShowing.observe(viewLifecycleOwner){
                 if(it){
                     showLogoutDialog()
                 }
+            }
+            headlines.observe(viewLifecycleOwner){
+                  layoutError.root.visible(false)
+                  mainAdapter.updateData(it)
+            }
+            onFetchError.observe(viewLifecycleOwner){
+                layoutError.root.visible(true)
+                val message = it.first?:getString(R.string.something_went_wrong)
+                val showRetry = it.second
+                layoutError.setData(showRetry,message)
             }
         }
     }

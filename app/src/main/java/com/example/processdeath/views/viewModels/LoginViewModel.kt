@@ -1,7 +1,7 @@
 package com.example.processdeath.views.viewModels
 
 import androidx.lifecycle.viewModelScope
-import com.domain.Result
+import com.domain.base.Result
 import com.domain.login.LoginUseCase
 import com.example.processdeath.R
 import com.example.processdeath.views.base.BaseViewModel

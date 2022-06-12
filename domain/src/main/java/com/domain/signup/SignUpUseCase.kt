@@ -1,11 +1,13 @@
-package com.domain
+package com.domain.signup
 
 import com.data.signUp.repositories.SignUpRepository
+import com.domain.base.BaseUseCaseWithRequestParam
+import com.domain.base.Result
 import com.example.mylibrary.loginSignUp.LoginSignUpResponse
 import com.model.signup.SignUpBody
 import javax.inject.Inject
 
-interface SignUpUseCase :BaseUseCaseWithRequestParam<SignUpBody,LoginSignUpResponse>
+interface SignUpUseCase : BaseUseCaseWithRequestParam<SignUpBody, LoginSignUpResponse>
 
 class SignUpUseCaseImpl @Inject constructor(private val signUpRepository: SignUpRepository):SignUpUseCase{
 

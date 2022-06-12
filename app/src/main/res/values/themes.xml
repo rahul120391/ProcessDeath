@@ -31,4 +31,11 @@
     <style name="ShapeAppearanceOverlay.App.CornerSize50Percent" parent="">
         <item name="cornerSize">50%</item>
     </style>
+
+    <style name="ShapeAppearanceOverlay.App.TopCornersOnly" parent="">
+        <item name="android:topLeftRadius">@dimen/_20sdp</item>
+        <item name="android:topRightRadius">@dimen/_20sdp</item>
+        <item name="android:bottomLeftRadius">@dimen/_0sdp</item>
+        <item name="android:bottomRightRadius">@dimen/_0sdp</item>
+    </style>
 </resources>

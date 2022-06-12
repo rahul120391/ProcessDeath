@@ -16,12 +16,16 @@
     <string name="hobby">Hobby</string>
     <string name="profile">Profile</string>
     <string name="logout">Logout</string>
+    <string name="no_data_found">No data found</string>
 
     <string name="logout_confirm">Logout?</string>
     <string name="are_u_sure_u_want_to_logout">Are u sure u want to logout</string>
 
     <string name="open">Open</string>
     <string name="close">Close</string>
+    <string name="retry">retry</string>
+    <string name="source">Source</string>
+    <string name="title">Title</string>
 
     <string-array name="hobbies">
         <item>Cricket</item>
