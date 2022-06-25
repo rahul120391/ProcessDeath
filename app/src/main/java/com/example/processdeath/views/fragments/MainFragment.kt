@@ -66,14 +66,11 @@ class MainFragment : BaseFragment(R.layout.fragment_main), NavigationView.OnNavi
                 }
             }
             initRecyclerView()
-            if(!viewModel.getIsLoading()){
-                viewModel.setIsLoading(true)
-                context?.let { it1 ->
-                    ContextCompat.getColor(
-                        it1,R.color.md_blue_grey_800)
-                }?.let { it2 -> pbBar.root.setIndicatorColor(it2) }
-                viewModel.fetchLatestHeadlines()
-            }
+            context?.let { it1 ->
+                ContextCompat.getColor(
+                    it1,R.color.md_blue_grey_800)
+            }?.let { it2 -> pbBar.root.setIndicatorColor(it2) }
+            viewModel.fetchHeadlines()
             initObservers()
         }
     }

@@ -18,6 +18,10 @@ object DependencyVersioning {
         const val dataStorePref = "1.0.0"
     }
 
+    object ThirdPartyDependenciesVersions{
+        const val chukerAndroidVersion = "3.5.2"
+    }
+
 
     object UnitTestDependenciesVersions{
         const val junitVersion = "4.13.2"

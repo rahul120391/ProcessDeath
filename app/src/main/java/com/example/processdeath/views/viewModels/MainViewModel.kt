@@ -40,11 +40,9 @@ class MainViewModel @Inject constructor(private val loginDataStoreRepository: Lo
 
     private var isLoading:Boolean = false
 
-    fun setIsLoading(isLoading:Boolean){
-        this.isLoading = isLoading
-    }
+    private fun setIsLoading(){ isLoading = true }
 
-    fun getIsLoading() = isLoading
+    private fun getIsLoading() = isLoading
 
     fun setLoggedInFalse(){
             viewModelScope.launch {
@@ -55,6 +53,13 @@ class MainViewModel @Inject constructor(private val loginDataStoreRepository: Lo
 
     fun setIsDialogShowing(isShowing:Boolean){
         savedStateHandle[IS_DIALOG_SHOWING] = isShowing
+    }
+
+    fun fetchHeadlines(){
+        if(!getIsLoading()){
+            setIsLoading()
+            fetchLatestHeadlines()
+        }
     }
 
     fun fetchLatestHeadlines() = viewModelScope.launch {

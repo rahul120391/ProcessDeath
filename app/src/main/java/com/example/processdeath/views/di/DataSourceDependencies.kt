@@ -2,6 +2,8 @@ package com.example.processdeath.views.di
 
 import com.data.login.datasource.LoginRemoteDataSource
 import com.data.login.datasource.LoginRemoteDataSourceImpl
+import com.data.main.datasource.MainLocalDataSource
+import com.data.main.datasource.MainLocalDataSourceImpl
 import com.data.main.datasource.MainRemoteDataSource
 import com.data.main.datasource.MainRemoteDataSourceImpl
 import com.data.signUp.datasource.SignUpDataSource
@@ -23,5 +25,8 @@ abstract class DataSourceDependencies {
     internal abstract fun provideSignUpDataSourceDependency(signDataSourceImpl: SignUpDataSourceImpl): SignUpDataSource
 
     @Binds
-    internal abstract fun provideMainDataSourceDependency(mainRemoteDataSourceImpl: MainRemoteDataSourceImpl):MainRemoteDataSource
+    internal  abstract fun provideMainLocalDataSourceDependency(mainLocalDataSourceImpl: MainLocalDataSourceImpl):MainLocalDataSource
+
+    @Binds
+    internal abstract fun provideMainRemoteDataSourceDependency(mainRemoteDataSourceImpl: MainRemoteDataSourceImpl):MainRemoteDataSource
 }

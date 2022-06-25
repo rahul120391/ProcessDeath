@@ -5,6 +5,7 @@ object AppDependencies {
         const val kotlinCoroutinesDependency = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${DependencyVersioning.KotlinDependenciesVersions.kotlinCoroutinesCoreVersion}"
         const val ktorClientCoreDependency = "io.ktor:ktor-client-core:${DependencyVersioning.KotlinDependenciesVersions.ktorVersion}"
         const val ktorClientCIODependency  = "io.ktor:ktor-client-cio:${DependencyVersioning.KotlinDependenciesVersions.ktorVersion}"
+        const val ktorOkHttpClientDependency = "io.ktor:ktor-client-okhttp:${DependencyVersioning.KotlinDependenciesVersions.ktorVersion}"
         const val ktorJsonSerializerDependency = "io.ktor:ktor-serialization-kotlinx-json:${DependencyVersioning.KotlinDependenciesVersions.ktorVersion}"
         const val ktorLoggingDependency  ="io.ktor:ktor-client-logging:${DependencyVersioning.KotlinDependenciesVersions.ktorVersion}"
         const val ktorContentNegotiationDependency = "io.ktor:ktor-client-content-negotiation:${DependencyVersioning.KotlinDependenciesVersions.ktorVersion}"
@@ -26,6 +27,10 @@ object AppDependencies {
         const val liveDataDependency = "androidx.lifecycle:lifecycle-livedata-ktx:${DependencyVersioning.AndroidSupportDependenciesVersions.lifeCycleVersion}"
         const val coroutinesAndroidDependency = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${DependencyVersioning.AndroidSupportDependenciesVersions.coroutineAndroidVersion}"
         const val dataStorePrefDependency = "androidx.datastore:datastore-preferences:${DependencyVersioning.AndroidSupportDependenciesVersions.dataStorePref}"
+    }
+
+    object ThirdPartDependencies{
+        const val chukerAndroidDependency = "com.github.chuckerteam.chucker:library:${DependencyVersioning.ThirdPartyDependenciesVersions.chukerAndroidVersion}"
     }
 
 

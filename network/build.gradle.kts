@@ -42,9 +42,10 @@ android {
 
 dependencies {
       implementation(AppDependencies.AndroidDependencies.hiltAndroidDependency)
+      api(AppDependencies.ThirdPartDependencies.chukerAndroidDependency)
       kapt(AppDependencies.AndroidDependencies.hiltCompilerDependency)
       api(AppDependencies.KotlinDependencies.ktorClientCoreDependency)
-      api(AppDependencies.KotlinDependencies.ktorClientCIODependency)
+      api(AppDependencies.KotlinDependencies.ktorOkHttpClientDependency)
       api(AppDependencies.KotlinDependencies.ktorJsonSerializerDependency)
       api(AppDependencies.KotlinDependencies.ktorLoggingDependency)
       api(AppDependencies.KotlinDependencies.ktorContentNegotiationDependency)

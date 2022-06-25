@@ -1,5 +1,6 @@
 package com.data.main.datasource
 
+import com.data.CacheUtils
 import com.example.mylibrary.main.TopHeadlines
 import io.ktor.client.*
 import io.ktor.client.call.*
@@ -13,9 +14,25 @@ interface MainDataSource {
     suspend fun getTopHeadLines():Result<TopHeadlines>
 }
 
-interface MainLocalDataSource:MainDataSource
+interface MainLocalDataSource:MainDataSource{
+    suspend fun writeDataToFile(data:TopHeadlines)
+}
 
-class MainLocalDataSourceImpl @Inject constructor(private val httpClient: HttpClient)
+class MainLocalDataSourceImpl @Inject constructor(private val cacheUtils: CacheUtils):MainLocalDataSource{
+
+    private val fileName:String = "latestNews"
+    private val expiration = 10*60*1000L
+    override suspend fun getTopHeadLines(): Result<TopHeadlines> {
+         val data = cacheUtils.readDataUnderExpiration<TopHeadlines>(expiration,fileName)
+         return data?.let {
+             Result.success(it)
+         }?: Result.failure(Throwable())
+    }
+
+    override suspend fun writeDataToFile(data: TopHeadlines) {
+        cacheUtils.writeData(fileName,data)
+    }
+}
 
 
 interface MainRemoteDataSource:MainDataSource

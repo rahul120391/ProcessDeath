@@ -1,7 +1,8 @@
 package com.network
 
+import com.chuckerteam.chucker.api.ChuckerInterceptor
 import io.ktor.client.*
-import io.ktor.client.engine.cio.*
+import io.ktor.client.engine.okhttp.*
 import io.ktor.client.plugins.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.plugins.logging.*
@@ -13,8 +14,16 @@ import kotlinx.serialization.json.Json
 interface KtorService {
     companion object{
         private const val BASE_URL ="https://demonuts.com/Demonuts/JsonTest/Tennis/"
-        fun provideClient():HttpClient{
-            return HttpClient(CIO) {
+        fun provideClient(chukerInterceptor: ChuckerInterceptor):HttpClient{
+            return HttpClient(OkHttp) {
+                engine {
+                    config {
+                        followRedirects(true)
+                    }
+                    addInterceptor(
+                        chukerInterceptor
+                    )
+                }
                 install(Logging) {
                     logger = Logger.ANDROID
                     level = LogLevel.ALL
