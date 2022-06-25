@@ -150,6 +150,11 @@ class MainFragment : BaseFragment(R.layout.fragment_main), NavigationView.OnNavi
                         }
                     }
                     launch {
+                        showOverlay.collectLatest {
+                             layoutOverlay.root.visible(it)
+                        }
+                    }
+                    launch {
                         showProgressBar.collectLatest {
                             layoutError.root.visible(false)
                             pbBar.root.visible(it)

@@ -55,4 +55,9 @@
         app:headerLayout="@layout/layout_header"
         app:menu="@menu/menu_drawer_items"
         />
+    <include
+        android:id="@+id/layoutOverlay"
+        layout="@layout/layout_progress_overlay"
+        android:visibility="gone"
+        />
 </androidx.drawerlayout.widget.DrawerLayout>

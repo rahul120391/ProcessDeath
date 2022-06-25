@@ -1,6 +1,6 @@
 package com.domain.base
 
-import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.*
 
 interface BaseUseCaseWithRequestParam<in Params, R>:CommonUseCase<R>{
     suspend fun executeUseCase(params:Params):Result<R>
@@ -21,6 +21,17 @@ interface CommonUseCase<R>:CancelTask{
             Result.Error()
         }
     }
+    suspend fun runWithSuperVisorScope(operation:suspend ()->Result<R>):Result<R>{
+        return supervisorScope {
+            try {
+                operation()
+            }
+            catch (e:Exception){
+                Result.Error()
+            }
+        }
+    }
+
 }
 
 sealed class Result<out T>{

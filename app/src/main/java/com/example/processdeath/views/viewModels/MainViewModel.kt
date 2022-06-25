@@ -13,6 +13,7 @@ import com.example.processdeath.views.base.BaseViewModel
 import com.example.processdeath.views.utils.Utility
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -42,7 +43,10 @@ class MainViewModel @Inject constructor(private val loginDataStoreRepository: Lo
 
     fun setLoggedInFalse(){
             viewModelScope.launch {
+                _showOverlay.send(true)
                 loginDataStoreRepository.saveData(false)
+                delay(3000)
+                _showOverlay.send(false)
                 _onLogout.send(Unit)
             }
     }

@@ -9,6 +9,9 @@ abstract class BaseViewModel : ViewModel(){
     protected val _showProgressBar = Channel<Boolean>()
     val showProgressBar = _showProgressBar.receiveAsFlow()
 
+    protected val _showOverlay = Channel<Boolean>()
+    val showOverlay = _showOverlay.receiveAsFlow()
+
     protected val _message = Channel<String?>()
     val message = _message.receiveAsFlow()
 
