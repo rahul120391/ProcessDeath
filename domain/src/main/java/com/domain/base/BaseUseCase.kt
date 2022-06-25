@@ -21,17 +21,18 @@ interface CommonUseCase<R>:CancelTask{
             Result.Error()
         }
     }
-    suspend fun runWithSuperVisorScope(operation:suspend ()->Result<R>):Result<R>{
-        return supervisorScope {
-            try {
-                operation()
-            }
-            catch (e:Exception){
-                Result.Error()
-            }
-        }
-    }
 
+    suspend fun runs(job:Job= Job(),scope:CoroutineScope = CoroutineScope(job), operation:suspend ()->Result<R>):Result<R>{
+         val value = scope.async {
+             operation()
+         }
+         return try {
+             value.await()
+         }
+         catch (e:Exception){
+             Result.Error()
+         }
+    }
 }
 
 sealed class Result<out T>{

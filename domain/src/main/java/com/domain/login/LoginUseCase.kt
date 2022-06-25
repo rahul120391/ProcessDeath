@@ -13,9 +13,10 @@ interface LoginUseCase: BaseUseCaseWithRequestParam<LoginBody, LoginSignUpRespon
 class LoginUseCaseImpl @Inject constructor(private val loginRepository: LoginRepository):LoginUseCase{
 
     override suspend fun executeUseCase(params: LoginBody): Result<LoginSignUpResponse> {
-        return runWithSuperVisorScope {
+        return runs {
             val result = loginRepository.login(loginBody = params)
             if(result.isSuccess){
+                throw NullPointerException()
                 val data  = result.getOrNull()
                 if(data?.status == "true"){
                     Result.Success(data)
