@@ -29,11 +29,12 @@ class MainViewModel @Inject constructor(private val loginDataStoreRepository: Lo
     private val _headlines = MutableLiveData<MutableList<Article>>()
     val headlines:LiveData<MutableList<Article>> = _headlines
 
-    private val _onFetchError = MutableLiveData<Pair<String?,Boolean>>()
-    val onFetchError:LiveData<Pair<String?,Boolean>> = _onFetchError
+    private val _onFetchError = Channel<Pair<String?,Boolean>>()
+    val onFetchError = _onFetchError.receiveAsFlow()
 
     companion object{
         private const val IS_DIALOG_SHOWING = "IsDialogShowing"
+        private const val HEADLINE_LIST_RESULT = "HeadlineListResult"
     }
 
     val isDialogShowing = savedStateHandle.getLiveData(IS_DIALOG_SHOWING,false)
@@ -55,29 +56,55 @@ class MainViewModel @Inject constructor(private val loginDataStoreRepository: Lo
         savedStateHandle[IS_DIALOG_SHOWING] = isShowing
     }
 
-    fun fetchHeadlines(){
+    fun fetchHeadlines() = viewModelScope.launch{
         if(!getIsLoading()){
             setIsLoading()
-            fetchLatestHeadlines()
+            val result = savedStateHandle.get<List<Article>>(HEADLINE_LIST_RESULT)
+            if(result!=null){
+                 _message.send("fetched result from savedStateHandle")
+                _headlines.value = result.toMutableList()
+            }
+            else{
+                val errorResult =  savedStateHandle.get<Pair<String,Boolean>>(HEADLINE_LIST_RESULT)
+                if(errorResult!=null){
+                    _message.send("fetched error from savedStateHandle")
+                    _onFetchError.send(errorResult)
+                }
+                else{
+                    println("perform fetchLatestHeadlines")
+                    fetchLatestHeadlines()
+                }
+            }
+
         }
     }
 
-    fun fetchLatestHeadlines() = viewModelScope.launch {
+    suspend fun fetchLatestHeadlines() {
         _showProgressBar.send(true)
         val result = mainUseCase.executeUseCase()
         _showProgressBar.send(false)
+        setResultData(result)
+    }
+
+    private suspend fun setResultData(result:Result<List<Article>>){
         if(result is Result.Success){
-             val list = result.data
+            val list = result.data
             if(list.isNotEmpty()){
-                _headlines.value = list.toMutableList()
+                 val resultList = list.toMutableList()
+                 savedStateHandle[HEADLINE_LIST_RESULT] = resultList
+                _headlines.value = resultList
             }
             else{
-                _onFetchError.value = Pair(utility.getString(R.string.no_data_found),false)
+                val errorResult = Pair(utility.getString(R.string.no_data_found),false)
+                savedStateHandle[HEADLINE_LIST_RESULT] = errorResult
+                _onFetchError.send(errorResult)
             }
 
         }
         else if (result is Result.Error){
-            _onFetchError.value = Pair(result.errorMessage,true)
+            val errorResult = Pair(result.errorMessage,true)
+            savedStateHandle[HEADLINE_LIST_RESULT] = errorResult
+            _onFetchError.send(errorResult)
         }
     }
 

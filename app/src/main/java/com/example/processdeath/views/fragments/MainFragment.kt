@@ -133,7 +133,9 @@ class MainFragment : BaseFragment(R.layout.fragment_main), NavigationView.OnNavi
             visible(showRetry)
             outlineProvider = CustomOutlineProvider(10F)
             setOnClickListener {
-                viewModel.fetchLatestHeadlines()
+                lifecycleScope.launch {
+                    viewModel.fetchLatestHeadlines()
+                }
             }
         }
         txtError.text = text
@@ -153,6 +155,20 @@ class MainFragment : BaseFragment(R.layout.fragment_main), NavigationView.OnNavi
                             pbBar.root.visible(it)
                         }
                     }
+                    launch {
+                        message.collectLatest {
+                            it?.let { it1 -> showSnackBar(it1) }
+                        }
+                    }
+                    launch {
+                        onFetchError.collectLatest {
+                            layoutError.root.visible(true)
+                            pbBar.root.visible(false)
+                            val message = it.first?:getString(R.string.something_went_wrong)
+                            val showRetry = it.second
+                            layoutError.setData(showRetry,message)
+                        }
+                    }
                 }
             }
             isDialogShowing.observe(viewLifecycleOwner){
@@ -163,13 +179,6 @@ class MainFragment : BaseFragment(R.layout.fragment_main), NavigationView.OnNavi
             headlines.observe(viewLifecycleOwner){
                   pbBar.root.visible(false)
                   mainAdapter.updateData(it)
-            }
-            onFetchError.observe(viewLifecycleOwner){
-                layoutError.root.visible(true)
-                pbBar.root.visible(false)
-                val message = it.first?:getString(R.string.something_went_wrong)
-                val showRetry = it.second
-                layoutError.setData(showRetry,message)
             }
         }
     }

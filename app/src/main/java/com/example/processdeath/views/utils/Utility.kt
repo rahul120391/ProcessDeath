@@ -27,6 +27,10 @@ class Utility @Inject constructor(@ApplicationContext  val context:Context){
 
     fun getString(stringId:Int) = context.resources.getString(stringId)
 
+    fun showMessage(){
+
+    }
+
 
     fun showDialog(title:String,message:String,context: WeakReference<Context>,onPositiveButtonClick:()->Unit){
         val dialogBuilder = context.get()?.let { MaterialAlertDialogBuilder(it) }
