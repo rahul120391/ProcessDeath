@@ -23,6 +23,7 @@ class MainViewModel @Inject constructor(private val loginDataStoreRepository: Lo
                                         private val utility: Utility,
                                         private val savedStateHandle: SavedStateHandle):BaseViewModel(){
 
+
     private val _onLogout = Channel<Unit>()
     val onLogout = _onLogout.receiveAsFlow()
 
@@ -39,12 +40,6 @@ class MainViewModel @Inject constructor(private val loginDataStoreRepository: Lo
 
     val isDialogShowing = savedStateHandle.getLiveData(IS_DIALOG_SHOWING,false)
 
-    private var isLoading:Boolean = false
-
-    private fun setIsLoading(){ isLoading = true }
-
-    private fun getIsLoading() = isLoading
-
     fun setLoggedInFalse(){
             viewModelScope.launch {
                 loginDataStoreRepository.saveData(false)
@@ -57,20 +52,24 @@ class MainViewModel @Inject constructor(private val loginDataStoreRepository: Lo
     }
 
     fun fetchHeadlines() = viewModelScope.launch{
-        if(!getIsLoading()){
-            setIsLoading()
-            val result = savedStateHandle.get<List<Article>>(HEADLINE_LIST_RESULT)
-            if(result!=null){
-                 _message.send("fetched result from savedStateHandle")
-                _headlines.value = result.toMutableList()
-            }
-            else{
-                val errorResult =  savedStateHandle.get<Pair<String,Boolean>>(HEADLINE_LIST_RESULT)
-                if(errorResult!=null){
-                    _message.send("fetched error from savedStateHandle")
-                    _onFetchError.send(errorResult)
+        if(!getIsDataLoaded()){
+            setIsDataLoaded()
+            /**
+             * Note:- For Demo Purpose i have used savedStateHandle to store the list of articles since the list size is not big, its ok to store the list size less than 50 records in savedStateHandle
+             * but for larger data , it should be kept in local storage either in private internal storage or db, coz savedStateHandle is used to hold only small amount of data, its very much similar to sharedPref and it also stores the
+             * data in key value pair but only to keep the data to byePass process death, in case we are not using viewmodel, plz save the data in onSavedInstanceState of either fragment or activity
+             * and fetch it in the oncreate method.
+             */
+            when (val result = savedStateHandle.get<Any>(HEADLINE_LIST_RESULT)) {
+                is List<*> -> {
+                    _message.send("fetched result from savedStateHandle")
+                    _headlines.value = result.filterIsInstance(Article::class.java).toMutableList()
                 }
-                else{
+                is Pair<*, *> -> {
+                    _message.send("fetched error from savedStateHandle")
+                    _onFetchError.send(Pair(result.first as String,result.second as Boolean))
+                }
+                else -> {
                     println("perform fetchLatestHeadlines")
                     fetchLatestHeadlines()
                 }
@@ -91,7 +90,7 @@ class MainViewModel @Inject constructor(private val loginDataStoreRepository: Lo
             val list = result.data
             if(list.isNotEmpty()){
                  val resultList = list.toMutableList()
-                 savedStateHandle[HEADLINE_LIST_RESULT] = resultList
+                 savedStateHandle[HEADLINE_LIST_RESULT] = list
                 _headlines.value = resultList
             }
             else{
