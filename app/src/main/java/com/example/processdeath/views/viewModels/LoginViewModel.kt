@@ -9,6 +9,8 @@ import com.example.processdeath.views.utils.Utility
 import com.model.login.LoginBody
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -18,8 +20,8 @@ class LoginViewModel @Inject constructor(private val loginUseCase: LoginUseCase,
                                          private val utility: Utility):BaseViewModel() {
 
 
-    private val _onLogin = Channel<String>()
-    val onLogin = _onLogin.receiveAsFlow()
+    private val _onLogin = MutableSharedFlow<String>()
+    val onLogin:SharedFlow<String> = _onLogin
 
     fun isValidEmail(text: String): Boolean {
         return utility.isValidEmail(text)
@@ -45,7 +47,7 @@ class LoginViewModel @Inject constructor(private val loginUseCase: LoginUseCase,
     _showProgressBar.send(false)
     if(result is Result.Success)
     {
-        _onLogin.send(result.data.message ?: "")
+        _onLogin.emit(result.data.message ?: "")
     }
     else if(result is Result.Error)
     {

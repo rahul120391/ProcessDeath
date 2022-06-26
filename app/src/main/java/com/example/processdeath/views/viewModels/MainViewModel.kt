@@ -14,7 +14,7 @@ import com.example.processdeath.views.utils.Utility
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -30,6 +30,9 @@ class MainViewModel @Inject constructor(private val loginDataStoreRepository: Lo
 
     private val _headlines = MutableLiveData<MutableList<Article>>()
     val headlines:LiveData<MutableList<Article>> = _headlines
+
+    private val _stateFlow = MutableSharedFlow<Boolean>()
+    val stateFlow:SharedFlow<Boolean> = _stateFlow
 
     private val _onFetchError = Channel<Pair<String?,Boolean>>()
     val onFetchError = _onFetchError.receiveAsFlow()
@@ -96,6 +99,7 @@ class MainViewModel @Inject constructor(private val loginDataStoreRepository: Lo
                  val resultList = list.toMutableList()
                  savedStateHandle[HEADLINE_LIST_RESULT] = list
                 _headlines.value = resultList
+                _stateFlow.emit(true)
             }
             else{
                 val errorResult = Pair(utility.getString(R.string.no_data_found),false)

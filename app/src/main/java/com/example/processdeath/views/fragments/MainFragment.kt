@@ -70,8 +70,8 @@ class MainFragment : BaseFragment(R.layout.fragment_main), NavigationView.OnNavi
                 ContextCompat.getColor(
                     it1,R.color.md_blue_grey_800)
             }?.let { it2 -> pbBar.root.setIndicatorColor(it2) }
-            viewModel.fetchHeadlines()
             initObservers()
+            viewModel.fetchHeadlines()
         }
     }
 
@@ -143,7 +143,7 @@ class MainFragment : BaseFragment(R.layout.fragment_main), NavigationView.OnNavi
     private fun FragmentMainBinding.initObservers(){
         with(viewModel){
             viewLifecycleOwner.lifecycleScope.launch {
-                viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
+                viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.CREATED){
                     launch {
                         onLogout.collectLatest {
                             findNavController().navigate(MainFragmentDirections.actionMainFragmentToLoginFragment())
@@ -172,6 +172,11 @@ class MainFragment : BaseFragment(R.layout.fragment_main), NavigationView.OnNavi
                             val message = it.first?:getString(R.string.something_went_wrong)
                             val showRetry = it.second
                             layoutError.setData(showRetry,message)
+                        }
+                    }
+                    launch {
+                        stateFlow.collectLatest {
+                             showSnackBar(it.toString())
                         }
                     }
                 }
