@@ -43,7 +43,7 @@ class SignUpFragment : BaseFragment(R.layout.fragment_sign_up) {
         LayoutToolbarCommonBinding.bind(root).toolBar.apply {
             navigationIcon = context?.let { ContextCompat.getDrawable(it,R.drawable.ic_baseline_arrow_back_ios_24) }
             setNavigationOnClickListener {
-                findNavController().popBackStack()
+                activity?.onBackPressed()
             }
         }
     }

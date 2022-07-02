@@ -15,6 +15,7 @@
         <activity
             android:name=".views.activity.MainActivity"
             android:exported="true"
+            android:configChanges="locale"
             android:windowSoftInputMode="adjustResize"
             >
             <intent-filter>

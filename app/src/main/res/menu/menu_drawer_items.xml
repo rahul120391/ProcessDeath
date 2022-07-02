@@ -9,9 +9,10 @@
         android:title="@string/profile"
         android:checked="true"
         />
-    <item
-        android:id="@+id/logout"
-        android:title="@string/logout"
-        />
+        <item
+            android:id="@+id/settings"
+            android:title="@string/settings"
+            android:checked="true"
+            />
     </group>
 </menu>

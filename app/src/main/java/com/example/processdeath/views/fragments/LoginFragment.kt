@@ -1,5 +1,7 @@
 package com.example.processdeath.views.fragments
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.activity.OnBackPressedCallback
@@ -53,19 +55,23 @@ class LoginFragment : BaseFragment(R.layout.fragment_login){
             val action =  LoginFragmentDirections.actionLoginFragmentToSignUpFragment2()
             findNavController().navigate(action)
         }
-
         etEmail.doOnTextChanged { text, _, _, _ ->
-             imgClearEmail.visible(text?.isNotBlank()==true)
-             val isValid = viewModel.isValidEmail(text.toString())
-             imgCorrectEmail.visible(isValid)
-             if(isValid){
-                 etEmail.setPadding(resources.getDimension(R.dimen._40sdp).toInt(),resources.getDimension(R.dimen._20sdp).toInt(),
-                     resources.getDimension(R.dimen._40sdp).toInt(),resources.getDimension(R.dimen._20sdp).toInt())
-             }
-             else{
-                 etEmail.setPadding(resources.getDimension(R.dimen._15sdp).toInt(),resources.getDimension(R.dimen._20sdp).toInt(),
-                     resources.getDimension(R.dimen._40sdp).toInt(),resources.getDimension(R.dimen._20sdp).toInt())
-             }
+            imgClearEmail.visible(text?.isNotBlank()==true)
+            val isValid = viewModel.isValidEmail(text.toString())
+            imgCorrectEmail.visible(isValid)
+            if(isValid){
+                etEmail.setPadding(resources.getDimension(R.dimen._40sdp).toInt(),resources.getDimension(R.dimen._20sdp).toInt(),
+                    resources.getDimension(R.dimen._40sdp).toInt(),resources.getDimension(R.dimen._20sdp).toInt())
+            }
+            else{
+                etEmail.setPadding(resources.getDimension(R.dimen._15sdp).toInt(),resources.getDimension(R.dimen._20sdp).toInt(),
+                    resources.getDimension(R.dimen._40sdp).toInt(),resources.getDimension(R.dimen._20sdp).toInt())
+            }
+        }
+        txtLink.setOnClickListener {
+            Intent(Intent.ACTION_VIEW, Uri.parse(txtLink.text.toString())).also {
+                this@LoginFragment.startActivity(it)
+            }
         }
         etPassword.doOnTextChanged { text, _, _, _ ->
             imgClearPassword.visible(text?.isNotBlank()==true)
@@ -80,6 +86,7 @@ class LoginFragment : BaseFragment(R.layout.fragment_login){
                     resources.getDimension(R.dimen._40sdp).toInt(),resources.getDimension(R.dimen._20sdp).toInt())
             }
         }
+
 
         imgClearEmail.setOnClickListener {
             etEmail.setText("")

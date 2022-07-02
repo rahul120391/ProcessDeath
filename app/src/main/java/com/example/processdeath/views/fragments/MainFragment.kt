@@ -3,7 +3,6 @@ package com.example.processdeath.views.fragments
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
-import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
@@ -39,21 +38,12 @@ class MainFragment : BaseFragment(R.layout.fragment_main), NavigationView.OnNavi
 
     private val binding by viewBinding(FragmentMainBinding::bind)
 
-    private val viewModel   by viewModels<MainViewModel>()
+    private val viewModel by viewModels<MainViewModel>()
 
     @Inject
     lateinit var utility:Utility
 
     private val mainAdapter by lazy { MainAdapter(onItemClick = ::onItemClick) }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                activity?.finish()
-            }
-        })
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -174,11 +164,6 @@ class MainFragment : BaseFragment(R.layout.fragment_main), NavigationView.OnNavi
                             layoutError.setData(showRetry,message)
                         }
                     }
-                    launch {
-                        stateFlow.collectLatest {
-                             showSnackBar(it.toString())
-                        }
-                    }
                 }
             }
             isDialogShowing.observe(viewLifecycleOwner){
@@ -206,10 +191,10 @@ class MainFragment : BaseFragment(R.layout.fragment_main), NavigationView.OnNavi
         when(item.itemId){
              R.id.profile->{
 
-            }
-            R.id.logout->{
-                showLogoutDialog()
-            }
+             }
+             R.id.settings->{
+                findNavController().navigate(MainFragmentDirections.actionMainFragmentToSettingsFragment())
+             }
         }
         return true
     }

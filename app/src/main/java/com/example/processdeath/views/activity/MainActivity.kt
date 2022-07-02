@@ -1,5 +1,6 @@
 package com.example.processdeath.views.activity
 
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
@@ -7,9 +8,15 @@ import android.view.ViewGroup
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
+import com.example.processdeath.R
 import com.example.processdeath.databinding.ActivityMainBinding
 import com.example.processdeath.views.base.BaseActivity
 import com.example.processdeath.views.extensions.viewBinding
+import com.example.processdeath.views.fragments.LoginFragment
+import com.example.processdeath.views.fragments.MainFragment
+import com.example.processdeath.views.utils.LocaleHelper
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -36,6 +43,22 @@ class MainActivity : BaseActivity() {
             // passed down to descendant views.
             WindowInsetsCompat.CONSUMED
         }
+    }
+
+    override fun attachBaseContext(newBase: Context?) {
+        super.attachBaseContext(newBase?.let { LocaleHelper.onAttach(it) })
+    }
+
+    override fun onBackPressed() {
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        val currentFragment = navHostFragment.childFragmentManager.fragments.first()
+        if(currentFragment is LoginFragment || currentFragment is MainFragment){
+            finish()
+        }
+        else{
+            super.onBackPressed()
+        }
+
     }
 
 }
