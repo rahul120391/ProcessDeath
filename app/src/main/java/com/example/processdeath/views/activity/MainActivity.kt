@@ -2,6 +2,7 @@ package com.example.processdeath.views.activity
 
 import android.content.Context
 import android.content.res.Configuration
+import android.content.res.Resources
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
@@ -11,6 +12,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
 import com.example.processdeath.R
 import com.example.processdeath.databinding.ActivityMainBinding
@@ -19,7 +21,13 @@ import com.example.processdeath.views.extensions.viewBinding
 import com.example.processdeath.views.fragments.LoginFragment
 import com.example.processdeath.views.fragments.MainFragment
 import com.example.processdeath.views.utils.LocalLanguageChangeHelper
+import com.example.processdeath.views.utils.Utility
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity() {
@@ -28,8 +36,9 @@ class MainActivity : BaseActivity() {
         get() = Color.TRANSPARENT
     override fun getView(): View = binding.root
 
-    private val _onLanguageChange = MutableLiveData<Context>()
-    fun languageChange():LiveData<Context> = _onLanguageChange
+    @Inject
+    lateinit var utility: Utility
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { view, windowInsets ->

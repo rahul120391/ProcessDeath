@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.processdeath.databinding.LayoutRowItemBinding
 
-class SettingsAdapter(private val items:List<String>,private val onItemClick:(String)->Unit):RecyclerView.Adapter<SettingsAdapter.ViewHolder>() {
+class SettingsAdapter(private val items:MutableList<String> = mutableListOf(),private val onItemClick:(String)->Unit):RecyclerView.Adapter<SettingsAdapter.ViewHolder>() {
 
 
     override fun getItemCount(): Int = items.size
@@ -29,4 +29,13 @@ class SettingsAdapter(private val items:List<String>,private val onItemClick:(St
             }
         }
     }
+
+    fun updateData(list: List<String>){
+        with(items){
+            clear()
+            addAll(list)
+            notifyItemRangeInserted(0,size)
+        }
+    }
+
 }

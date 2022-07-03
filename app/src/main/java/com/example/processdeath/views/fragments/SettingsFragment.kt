@@ -1,5 +1,6 @@
 package com.example.processdeath.views.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
@@ -25,7 +26,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.lang.ref.WeakReference
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class SettingsFragment:BaseFragment(R
@@ -35,8 +35,12 @@ class SettingsFragment:BaseFragment(R
 
     private val viewModel by viewModels<SettingsViewModel>()
 
-    @Inject
-    lateinit var utility: Utility
+    private lateinit var utility: Utility
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        utility = (context as MainActivity).utility
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -49,7 +53,7 @@ class SettingsFragment:BaseFragment(R
 
     private fun FragmentSettingsBinding.initToolBar(){
         LayoutToolbarCommonBinding.bind(root).apply {
-            title.text = getString(R.string.settings)
+            title.text = utility.getString(R.string.settings)
             toolBar.apply {
                 navigationIcon = context?.let { ContextCompat.getDrawable(it,R.drawable.ic_baseline_arrow_back_ios_24) }
                 setNavigationOnClickListener {
@@ -64,15 +68,15 @@ class SettingsFragment:BaseFragment(R
               setHasFixedSize(true)
               layoutManager = LinearLayoutManager(context)
               addItemDecoration(DividerItemDecoration(context,RecyclerView.VERTICAL))
-              adapter = SettingsAdapter(resources.getStringArray(R.array.settings_items).toList(),::onItemClick)
+              adapter = SettingsAdapter(utility.getResourceFrom().getStringArray(R.array.settings_items).toMutableList(),::onItemClick)
           }
     }
 
     private fun onItemClick(item:String){
-         if(item == getString(R.string.change_language)){
+         if(item == utility.getString(R.string.change_language)){
               findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToChooseLanguageFragment())
          }
-         else if(item == getString(R.string.logout)){
+         else if(item == utility.getString(R.string.logout)){
              showLogoutDialog()
          }
     }
@@ -80,7 +84,7 @@ class SettingsFragment:BaseFragment(R
     private fun FragmentSettingsBinding.initObservers(){
         with(viewModel) {
             viewLifecycleOwner.lifecycleScope.launch {
-                viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.CREATED) {
+                viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                     launch {
                         onLogout.collectLatest {
                             findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToLoginFragment())
@@ -93,11 +97,7 @@ class SettingsFragment:BaseFragment(R
                     }
                 }
             }
-            (activity as MainActivity).languageChange().observe(viewLifecycleOwner){
-                LayoutToolbarCommonBinding.bind(root).apply {
-                    title.text = resources.getString(R.string.settings)
-                }
-            }
+
         }
     }
 

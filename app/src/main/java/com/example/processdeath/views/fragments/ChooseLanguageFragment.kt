@@ -9,15 +9,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.processdeath.R
 import com.example.processdeath.databinding.FragmentChooseLanguageBinding
 import com.example.processdeath.databinding.LayoutToolbarCommonBinding
+import com.example.processdeath.views.activity.MainActivity
 import com.example.processdeath.views.adapters.LanguageAdapter
 import com.example.processdeath.views.base.BaseFragment
 import com.example.processdeath.views.extensions.viewBinding
 import com.example.processdeath.views.utils.LocalLanguageChangeHelper
 
-
 class ChooseLanguageFragment : BaseFragment(R.layout.fragment_choose_language) {
 
     private val binding by viewBinding(FragmentChooseLanguageBinding::bind)
+
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -53,8 +55,11 @@ class ChooseLanguageFragment : BaseFragment(R.layout.fragment_choose_language) {
     private fun onItemClick(item:Pair<String,String>){
         showSnackBar("selected language ${item.first}")
         context?.let {
-            LocalLanguageChangeHelper.setLocale(it,item.second)
-            activity?.onBackPressed()
+            val context = LocalLanguageChangeHelper.setLocale(it,item.second)
+            (activity as MainActivity).apply {
+                utility.setNewResources(context.resources)
+                onBackPressed()
+            }
         }
     }
 
