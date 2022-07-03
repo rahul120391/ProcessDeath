@@ -5,28 +5,31 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.processdeath.databinding.LayoutRowItemBinding
 
-class SettingsAdapter(private val items:List<String>,private val onItemClick:(String)->Unit):RecyclerView.Adapter<SettingsAdapter.ViewHolder>() {
+
+class LanguageAdapter(private val languageList:List<Pair<String,String>>,private val onItemClick:(Pair<String,String>)->Unit):
+    RecyclerView.Adapter<LanguageAdapter.ViewHolder>() {
 
 
-    override fun getItemCount(): Int = items.size
+    override fun getItemCount(): Int = languageList.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder = ViewHolder(
         LayoutRowItemBinding.inflate(
-        LayoutInflater.from(parent.context),parent,false))
+            LayoutInflater.from(parent.context),parent,false))
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-           holder.bind(items[position])
+        holder.bind(languageList[position].first)
     }
 
     inner class ViewHolder(private val rowItemBinding: LayoutRowItemBinding):RecyclerView.ViewHolder(rowItemBinding.root){
 
         fun bind(item:String){
             rowItemBinding.apply {
-                  txtItem.text = item
-                   root.setOnClickListener {
-                       onItemClick(items[adapterPosition])
-                   }
+                txtItem.text = item
+                root.setOnClickListener {
+                    onItemClick(languageList[adapterPosition])
+                }
             }
         }
     }
+
 }

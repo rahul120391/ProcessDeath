@@ -18,7 +18,7 @@ import com.example.processdeath.views.adapters.SettingsAdapter
 import com.example.processdeath.views.base.BaseFragment
 import com.example.processdeath.views.extensions.viewBinding
 import com.example.processdeath.views.extensions.visible
-import com.example.processdeath.views.utils.LocaleHelper
+import com.example.processdeath.views.utils.LocalLanguageChangeHelper
 import com.example.processdeath.views.utils.Utility
 import com.example.processdeath.views.viewModels.SettingsViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -70,9 +70,7 @@ class SettingsFragment:BaseFragment(R
 
     private fun onItemClick(item:String){
          if(item == getString(R.string.change_language)){
-             context?.let {
-                 LocaleHelper.setLocale(it,"pa")
-             }
+              findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToChooseLanguageFragment())
          }
          else if(item == getString(R.string.logout)){
              showLogoutDialog()

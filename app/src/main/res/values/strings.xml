@@ -28,6 +28,7 @@
     <string name="title">Title</string>
     <string name="desc">Description</string>
     <string name="settings">Settings</string>
+    <string name="choose_language">Choose Language</string>
 
     <string name="deep_link">https://www.freecharge.in/fc/app?action=view\u0026page=utility\u0026screenName=stateCityList\u0026categoryName=Education%20Fees\u0026shortCode=EF\u0026stateId=2\u0026cityId=5</string>
 
@@ -44,4 +45,5 @@
         <item>@string/change_language</item>
         <item>@string/logout</item>
     </string-array>
+
 </resources>
