@@ -13,15 +13,11 @@ import com.example.processdeath.views.adapters.LanguageAdapter
 import com.example.processdeath.views.base.BaseFragment
 import com.example.processdeath.views.extensions.viewBinding
 import com.example.processdeath.views.utils.LocalLanguageChangeHelper
-import dagger.hilt.android.AndroidEntryPoint
 
 
-@AndroidEntryPoint
 class ChooseLanguageFragment : BaseFragment(R.layout.fragment_choose_language) {
 
     private val binding by viewBinding(FragmentChooseLanguageBinding::bind)
-
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -56,8 +52,9 @@ class ChooseLanguageFragment : BaseFragment(R.layout.fragment_choose_language) {
 
     private fun onItemClick(item:Pair<String,String>){
         showSnackBar("selected language ${item.first}")
-        context?.let { LocalLanguageChangeHelper.setLocale(it,item.second)
-            activity?.recreate()
+        context?.let {
+            LocalLanguageChangeHelper.setLocale(it,item.second)
+            activity?.onBackPressed()
         }
     }
 

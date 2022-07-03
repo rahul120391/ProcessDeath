@@ -14,11 +14,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.processdeath.R
 import com.example.processdeath.databinding.FragmentSettingsBinding
 import com.example.processdeath.databinding.LayoutToolbarCommonBinding
+import com.example.processdeath.views.activity.MainActivity
 import com.example.processdeath.views.adapters.SettingsAdapter
 import com.example.processdeath.views.base.BaseFragment
 import com.example.processdeath.views.extensions.viewBinding
 import com.example.processdeath.views.extensions.visible
-import com.example.processdeath.views.utils.LocalLanguageChangeHelper
 import com.example.processdeath.views.utils.Utility
 import com.example.processdeath.views.viewModels.SettingsViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -91,6 +91,11 @@ class SettingsFragment:BaseFragment(R
                             layoutOverlay.root.visible(it)
                         }
                     }
+                }
+            }
+            (activity as MainActivity).languageChange().observe(viewLifecycleOwner){
+                LayoutToolbarCommonBinding.bind(root).apply {
+                    title.text = resources.getString(R.string.settings)
                 }
             }
         }

@@ -1,6 +1,7 @@
 package com.example.processdeath.views.activity
 
 import android.content.Context
+import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
@@ -8,6 +9,8 @@ import android.view.ViewGroup
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.navigation.fragment.NavHostFragment
 import com.example.processdeath.R
 import com.example.processdeath.databinding.ActivityMainBinding
@@ -25,6 +28,8 @@ class MainActivity : BaseActivity() {
         get() = Color.TRANSPARENT
     override fun getView(): View = binding.root
 
+    private val _onLanguageChange = MutableLiveData<Context>()
+    fun languageChange():LiveData<Context> = _onLanguageChange
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { view, windowInsets ->
@@ -46,6 +51,7 @@ class MainActivity : BaseActivity() {
     override fun attachBaseContext(base: Context?) {
         super.attachBaseContext(base?.let { LocalLanguageChangeHelper.onAttach(it) })
     }
+
 
 
     override fun onBackPressed() {
