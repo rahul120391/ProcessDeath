@@ -38,8 +38,10 @@ class LoginFragment : BaseFragment(R.layout.fragment_login){
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        println("bundle is = $savedInstanceState")
-        binding.setListeners()
+        with(binding){
+            setTextValues()
+            setListeners()
+        }
         initObservers()
     }
 
@@ -124,9 +126,8 @@ class LoginFragment : BaseFragment(R.layout.fragment_login){
         }
     }
 
-
-
-
-
+    private fun FragmentLoginBinding.setTextValues(){
+           txtLogin.text = stringResource.getString(R.string.login)
+    }
 
 }

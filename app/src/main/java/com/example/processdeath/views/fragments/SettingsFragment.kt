@@ -1,6 +1,5 @@
 package com.example.processdeath.views.fragments
 
-import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
@@ -15,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.processdeath.R
 import com.example.processdeath.databinding.FragmentSettingsBinding
 import com.example.processdeath.databinding.LayoutToolbarCommonBinding
-import com.example.processdeath.views.activity.MainActivity
 import com.example.processdeath.views.adapters.SettingsAdapter
 import com.example.processdeath.views.base.BaseFragment
 import com.example.processdeath.views.extensions.viewBinding
@@ -26,6 +24,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.lang.ref.WeakReference
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class SettingsFragment:BaseFragment(R
@@ -35,12 +34,8 @@ class SettingsFragment:BaseFragment(R
 
     private val viewModel by viewModels<SettingsViewModel>()
 
-    private lateinit var utility: Utility
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        utility = (context as MainActivity).utility
-    }
+    @Inject
+    lateinit var utility:Utility
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -53,7 +48,7 @@ class SettingsFragment:BaseFragment(R
 
     private fun FragmentSettingsBinding.initToolBar(){
         LayoutToolbarCommonBinding.bind(root).apply {
-            title.text = utility.getString(R.string.settings)
+            title.text = stringResource.getString(R.string.settings)
             toolBar.apply {
                 navigationIcon = context?.let { ContextCompat.getDrawable(it,R.drawable.ic_baseline_arrow_back_ios_24) }
                 setNavigationOnClickListener {
@@ -68,15 +63,15 @@ class SettingsFragment:BaseFragment(R
               setHasFixedSize(true)
               layoutManager = LinearLayoutManager(context)
               addItemDecoration(DividerItemDecoration(context,RecyclerView.VERTICAL))
-              adapter = SettingsAdapter(utility.getResourceFrom().getStringArray(R.array.settings_items).toMutableList(),::onItemClick)
+              adapter = SettingsAdapter(stringResource.getStringArray(R.array.settings_items).toMutableList(),::onItemClick)
           }
     }
 
     private fun onItemClick(item:String){
-         if(item == utility.getString(R.string.change_language)){
+         if(item == stringResource.getString(R.string.change_language)){
               findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToChooseLanguageFragment())
          }
-         else if(item == utility.getString(R.string.logout)){
+         else if(item == stringResource.getString(R.string.logout)){
              showLogoutDialog()
          }
     }
@@ -103,7 +98,7 @@ class SettingsFragment:BaseFragment(R
 
     private fun showLogoutDialog(){
         context?.let {
-            utility.showDialog(utility.getString(R.string.logout_confirm),utility.getString(R.string.are_u_sure_u_want_to_logout),
+            utility.showDialog(stringResource.getString(R.string.logout_confirm),stringResource.getString(R.string.are_u_sure_u_want_to_logout),
                 WeakReference(it)
             ){
                 viewModel.setLoggedInFalse()

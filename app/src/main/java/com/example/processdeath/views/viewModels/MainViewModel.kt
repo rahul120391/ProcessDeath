@@ -10,6 +10,7 @@ import com.domain.base.Result
 import com.example.mylibrary.main.Article
 import com.example.processdeath.R
 import com.example.processdeath.views.base.BaseViewModel
+import com.example.processdeath.views.utils.StringResource
 import com.example.processdeath.views.utils.Utility
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -22,6 +23,7 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(private val loginDataStoreRepository: LoginDataStoreRepository,
                                         private val mainUseCase: MainUseCase,
                                         private val utility: Utility,
+                                        private val stringResource: StringResource,
                                         private val savedStateHandle: SavedStateHandle):BaseViewModel(){
 
 
@@ -98,7 +100,7 @@ class MainViewModel @Inject constructor(private val loginDataStoreRepository: Lo
                 _headlines.value = resultList
             }
             else{
-                val errorResult = Pair(utility.getString(R.string.no_data_found),false)
+                val errorResult = Pair(stringResource.getString(R.string.no_data_found),false)
                 savedStateHandle[HEADLINE_LIST_RESULT] = errorResult
                 _onFetchError.send(errorResult)
             }

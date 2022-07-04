@@ -41,7 +41,7 @@ class MainFragment : BaseFragment(R.layout.fragment_main), NavigationView.OnNavi
     private val viewModel by viewModels<MainViewModel>()
 
     @Inject
-    lateinit var utility:Utility
+    lateinit var utility: Utility
 
     private val mainAdapter by lazy { MainAdapter(onItemClick = ::onItemClick) }
 
@@ -110,7 +110,7 @@ class MainFragment : BaseFragment(R.layout.fragment_main), NavigationView.OnNavi
 
     private fun showLogoutDialog(){
         context?.let {
-            utility.showDialog(utility.getString(R.string.logout_confirm),utility.getString(R.string.are_u_sure_u_want_to_logout),
+            utility.showDialog(stringResource.getString(R.string.logout_confirm),stringResource.getString(R.string.are_u_sure_u_want_to_logout),
                 WeakReference(it)
             ){
                 viewModel.setLoggedInFalse()

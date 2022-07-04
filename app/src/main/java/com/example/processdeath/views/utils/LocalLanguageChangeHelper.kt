@@ -19,11 +19,6 @@ class LocalLanguageChangeHelper {
             return setLocale(context, lang)
         }
 
-        fun onAttach(context: Context, defaultLanguage: String): Context {
-            val lang = getPersistedData(context, defaultLanguage)
-            return setLocale(context, lang)
-        }
-
         private fun getLanguage(context: Context): String {
             return getPersistedData(context, Locale.getDefault().language)
         }

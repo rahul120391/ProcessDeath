@@ -18,14 +18,6 @@ class Utility @Inject constructor(@ApplicationContext  val context:Context){
 
     private var dialog:AlertDialog?=null
 
-    private var resources:Resources?=null
-
-    fun getResourceFrom():Resources = resources?:context.resources
-
-    fun setNewResources(resources: Resources){
-        this.resources = resources
-    }
-
     fun isValidEmail(email:String):Boolean{
         return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }
@@ -33,9 +25,6 @@ class Utility @Inject constructor(@ApplicationContext  val context:Context){
     fun isValidPassword(password:String):Boolean{
         return password.length>= MIN_PASSWORD_LENGTH
     }
-
-    fun getString(stringId:Int) = resources?.getString(stringId)?:context.resources.getString(stringId)
-
 
     fun showDialog(title:String,message:String,context: WeakReference<Context>,onPositiveButtonClick:()->Unit){
         val dialogBuilder = context.get()?.let { MaterialAlertDialogBuilder(it) }

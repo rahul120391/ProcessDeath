@@ -12,10 +12,11 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import com.domain.base.Result
+import com.example.processdeath.views.utils.StringResource
 
 @HiltViewModel
 class SignUpViewModel @Inject constructor(private val signUpUseCase: SignUpUseCase,
-                                          private val utility: Utility):BaseViewModel() {
+                                          private val utility: Utility,private val stringResource: StringResource):BaseViewModel() {
 
 
     private val _onSignUp = Channel<String>()
@@ -33,13 +34,13 @@ class SignUpViewModel @Inject constructor(private val signUpUseCase: SignUpUseCa
     fun performSignUp(name:String,hobby:String,email:String,password:String) = viewModelScope.launch {
         val isValid = isValidEmail(email) && isValidPassword(password)
         if (!isValid){
-            _message.send(utility.getString(R.string.invalid_username_or_passsword))
+            _message.send(stringResource.getString(R.string.invalid_username_or_passsword))
         }
         else if(name.isBlank()){
-            _message.send(utility.getString(R.string.name_should_not_be_blank))
+            _message.send(stringResource.getString(R.string.name_should_not_be_blank))
         }
         else if(hobby.isBlank()){
-            _message.send(utility.getString(R.string.hobby_not_blank))
+            _message.send(stringResource.getString(R.string.hobby_not_blank))
         }
         else{
             signUp(SignUpBody(name,email,password, hobby))

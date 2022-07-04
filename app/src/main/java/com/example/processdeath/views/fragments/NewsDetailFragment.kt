@@ -14,7 +14,9 @@ import com.example.processdeath.views.extensions.bold
 import com.example.processdeath.views.extensions.plus
 import com.example.processdeath.views.extensions.spannable
 import com.example.processdeath.views.extensions.viewBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class NewsDetailFragment : BaseFragment(R.layout.fragment_news_detail) {
 
       private val binding by viewBinding(FragmentNewsDetailBinding::bind)

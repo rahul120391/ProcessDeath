@@ -5,6 +5,7 @@ import com.domain.base.Result
 import com.domain.login.LoginUseCase
 import com.example.processdeath.R
 import com.example.processdeath.views.base.BaseViewModel
+import com.example.processdeath.views.utils.StringResource
 import com.example.processdeath.views.utils.Utility
 import com.model.login.LoginBody
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,7 +18,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(private val loginUseCase: LoginUseCase,
-                                         private val utility: Utility):BaseViewModel() {
+                                         private val utility:Utility ,private val stringResource: StringResource):BaseViewModel() {
 
 
     private val _onLogin = MutableSharedFlow<String>()
@@ -36,7 +37,7 @@ class LoginViewModel @Inject constructor(private val loginUseCase: LoginUseCase,
         if (isValid) {
             login(LoginBody(email, password))
         } else {
-            _message.send(utility.getString(R.string.invalid_username_or_passsword))
+            _message.send(stringResource.getString(R.string.invalid_username_or_passsword))
         }
     }
 

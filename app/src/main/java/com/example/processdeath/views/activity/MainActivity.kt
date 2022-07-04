@@ -36,9 +36,6 @@ class MainActivity : BaseActivity() {
         get() = Color.TRANSPARENT
     override fun getView(): View = binding.root
 
-    @Inject
-    lateinit var utility: Utility
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { view, windowInsets ->
@@ -60,8 +57,6 @@ class MainActivity : BaseActivity() {
     override fun attachBaseContext(base: Context?) {
         super.attachBaseContext(base?.let { LocalLanguageChangeHelper.onAttach(it) })
     }
-
-
 
     override fun onBackPressed() {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
