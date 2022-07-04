@@ -33,6 +33,7 @@ class SignUpFragment : BaseFragment(R.layout.fragment_sign_up) {
         super.onViewCreated(view, savedInstanceState)
         with(binding){
             initToolBar()
+            setUpViews()
             setListeners()
             setUpAdapter()
             initObservers()
@@ -40,11 +41,19 @@ class SignUpFragment : BaseFragment(R.layout.fragment_sign_up) {
     }
 
     private fun FragmentSignUpBinding.initToolBar(){
-        LayoutToolbarCommonBinding.bind(root).toolBar.apply {
-            navigationIcon = context?.let { ContextCompat.getDrawable(it,R.drawable.ic_baseline_arrow_back_ios_24) }
+        LayoutToolbarCommonBinding.bind(root).apply {
+            title.text = stringResource.getString(R.string.sign_up)
+            toolBar.apply {
+            navigationIcon = context?.let {
+                ContextCompat.getDrawable(
+                    it,
+                    R.drawable.ic_baseline_arrow_back_ios_24
+                )
+            }
             setNavigationOnClickListener {
                 activity?.onBackPressed()
             }
+        }
         }
     }
 
@@ -100,7 +109,7 @@ class SignUpFragment : BaseFragment(R.layout.fragment_sign_up) {
     }
 
     private fun FragmentSignUpBinding.setUpAdapter(){
-          val list = resources.getStringArray(R.array.hobbies).toList()
+          val list = stringResource.getStringArray(R.array.hobbies).toList()
           val adapter = context?.let { ArrayAdapter(it,android.R.layout.simple_spinner_dropdown_item,list) }
           txtHobby.setAdapter(adapter)
           txtHobby.setText(list[0])
@@ -131,6 +140,14 @@ class SignUpFragment : BaseFragment(R.layout.fragment_sign_up) {
 
             }
         }
+    }
+
+    private fun FragmentSignUpBinding.setUpViews(){
+          tilName.hint = stringResource.getString(R.string.name)
+          tilHobby.hint = stringResource.getString(R.string.hobby)
+          tilEmail.hint = stringResource.getString(R.string.email)
+          tilPassword.hint = stringResource.getString(R.string.password)
+          btnSignUp.hint = stringResource.getString(R.string.sign_up)
     }
 
 }
