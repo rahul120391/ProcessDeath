@@ -31,7 +31,7 @@ class ChooseLanguageFragment : BaseFragment(R.layout.fragment_choose_language) {
 
     private fun FragmentChooseLanguageBinding.initToolBar(){
         LayoutToolbarCommonBinding.bind(root).apply {
-            title.text = getString(R.string.choose_language)
+            title.text = stringResource.getString(R.string.choose_language)
             toolBar.apply {
                 navigationIcon = context?.let { ContextCompat.getDrawable(it,R.drawable.ic_baseline_arrow_back_ios_24) }
                 setNavigationOnClickListener {
@@ -46,14 +46,13 @@ class ChooseLanguageFragment : BaseFragment(R.layout.fragment_choose_language) {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(context)
             addItemDecoration(DividerItemDecoration(context, RecyclerView.VERTICAL))
-            adapter = LanguageAdapter(listOf(Pair("Hindi","hi"), Pair("Punjabi","pa"),
+            adapter = LanguageAdapter(listOf(Pair("English","en"),Pair("Hindi","hi"), Pair("Punjabi","pa"),
                 Pair("Arabic","ar")
             ),::onItemClick)
         }
     }
 
     private fun onItemClick(item:Pair<String,String>){
-        showSnackBar("selected language ${item.first}")
         context?.let {
             val context = LocalLanguageChangeHelper.setLocale(it,item.second)
             (activity as MainActivity).apply {

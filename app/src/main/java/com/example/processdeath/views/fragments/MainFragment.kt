@@ -7,6 +7,8 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
+import androidx.core.view.forEach
+import androidx.core.view.forEachIndexed
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -49,7 +51,7 @@ class MainFragment : BaseFragment(R.layout.fragment_main), NavigationView.OnNavi
         super.onViewCreated(view, savedInstanceState)
         with(binding){
             LayoutToolbarCommonBinding.bind(root).apply {
-                title.text = getString(R.string.home)
+                title.text = stringResource.getString(R.string.home)
                 toolBar.apply {
                     initToolbar()
                     setUpDrawer(this)
@@ -159,7 +161,7 @@ class MainFragment : BaseFragment(R.layout.fragment_main), NavigationView.OnNavi
                         onFetchError.collectLatest {
                             layoutError.root.visible(true)
                             pbBar.root.visible(false)
-                            val message = it.first?:getString(R.string.something_went_wrong)
+                            val message = it.first?:stringResource.getString(R.string.something_went_wrong)
                             val showRetry = it.second
                             layoutError.setData(showRetry,message)
                         }
@@ -179,10 +181,14 @@ class MainFragment : BaseFragment(R.layout.fragment_main), NavigationView.OnNavi
     }
 
     private fun FragmentMainBinding.setUpDrawer(toolbar: Toolbar){
+        val titles = arrayOf(stringResource.getString(R.string.profile),stringResource.getString(R.string.settings))
         val drawerToggle = ActionBarDrawerToggle(activity,drawer, toolbar,R.string.open,R.string.close)
         drawer.addDrawerListener(drawerToggle)
         drawerToggle.syncState()
         navView.setNavigationItemSelectedListener(this@MainFragment)
+        navView.menu.forEachIndexed { index, item ->
+            item.title = titles[index]
+        }
     }
 
 

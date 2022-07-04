@@ -128,6 +128,10 @@ class LoginFragment : BaseFragment(R.layout.fragment_login){
 
     private fun FragmentLoginBinding.setTextValues(){
            txtLogin.text = stringResource.getString(R.string.login)
+           tilEmail.hint = stringResource.getString(R.string.email)
+           tilPassword.hint = stringResource.getString(R.string.password)
+           btnLogin.text = stringResource.getString(R.string.login)
+           btnSignUp.text = stringResource.getString(R.string.sign_up)
     }
 
 }
