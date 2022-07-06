@@ -11,6 +11,7 @@ object AppDependencies {
         const val ktorContentNegotiationDependency = "io.ktor:ktor-client-content-negotiation:${DependencyVersioning.KotlinDependenciesVersions.ktorVersion}"
         const val gsonDependency = "com.google.code.gson:gson:${DependencyVersioning.KotlinDependenciesVersions.gsonVersion}"
         const val coilDependency = "io.coil-kt:coil:${DependencyVersioning.KotlinDependenciesVersions.coilVersion}"
+        const val mlLanguageKitTranslate = "com.google.mlkit:translate:${DependencyVersioning.KotlinDependenciesVersions.mlLanguageTranslateVersion}"
     }
 
     object AndroidDependencies{

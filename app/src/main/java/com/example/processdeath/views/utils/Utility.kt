@@ -5,6 +5,9 @@ import android.content.res.Resources
 import androidx.appcompat.app.AlertDialog
 import com.example.processdeath.R
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.mlkit.nl.translate.TranslateLanguage
+import com.google.mlkit.nl.translate.Translation
+import com.google.mlkit.nl.translate.TranslatorOptions
 import dagger.hilt.android.qualifiers.ApplicationContext
 import java.lang.ref.WeakReference
 import javax.inject.Inject
@@ -44,6 +47,17 @@ class Utility @Inject constructor(@ApplicationContext  val context:Context,val s
 
     fun dismissDialog(){
         if(dialog?.isShowing==true) dialog?.dismiss()
+    }
+
+    fun getTransLater(sourceLanguage:String,targetLanguage:String){
+         val options = TranslatorOptions.Builder().setSourceLanguage(sourceLanguage).setTargetLanguage(targetLanguage).build()
+         Translation.getClient(options).downloadModelIfNeeded().addOnSuccessListener {
+             translatedText->
+
+         }.addOnFailureListener {
+             error->
+         }
+
     }
 
 }

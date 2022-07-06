@@ -6,6 +6,7 @@ object DependencyVersioning {
         const val ktorVersion="2.0.2"
         const val gsonVersion ="2.9.0"
         const val coilVersion ="2.1.0"
+        const val mlLanguageTranslateVersion = "17.0.0"
     }
     object AndroidSupportDependenciesVersions{
 
