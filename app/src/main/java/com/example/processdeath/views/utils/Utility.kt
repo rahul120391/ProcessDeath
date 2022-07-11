@@ -5,11 +5,15 @@ import android.content.res.Resources
 import androidx.appcompat.app.AlertDialog
 import com.example.processdeath.R
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.mlkit.common.model.DownloadConditions
 import com.google.mlkit.nl.translate.TranslateLanguage
 import com.google.mlkit.nl.translate.Translation
 import com.google.mlkit.nl.translate.TranslatorOptions
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.callbackFlow
 import java.lang.ref.WeakReference
+import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -49,15 +53,23 @@ class Utility @Inject constructor(@ApplicationContext  val context:Context,val s
         if(dialog?.isShowing==true) dialog?.dismiss()
     }
 
-    fun getTransLater(sourceLanguage:String,targetLanguage:String){
-         val options = TranslatorOptions.Builder().setSourceLanguage(sourceLanguage).setTargetLanguage(targetLanguage).build()
-         Translation.getClient(options).downloadModelIfNeeded().addOnSuccessListener {
-             translatedText->
-
-         }.addOnFailureListener {
-             error->
-         }
-
+    data class LanguageMapper(val source:Int,val value:String)
+    fun getTransLater(text:String,position:Int,sourceLanguage:String = "en") = callbackFlow {
+        val targetLanguage = LocalLanguageChangeHelper.getPersistedData(context, Locale.getDefault().language)
+        val options = TranslatorOptions.Builder().setSourceLanguage(sourceLanguage).setTargetLanguage(targetLanguage).build()
+        val translator = Translation.getClient(options)
+        val task = translator.downloadModelIfNeeded(DownloadConditions.Builder()
+            .requireWifi()
+            .build()).addOnSuccessListener {
+             translator.translate(text).addOnSuccessListener {
+                 trySend(LanguageMapper(position,it))
+             }.addOnFailureListener {
+                 trySend(LanguageMapper(position,text))
+             }
+        }.addOnFailureListener {
+           trySend(LanguageMapper(position,text))
+        }
+        awaitClose { task.isComplete }
     }
 
 }

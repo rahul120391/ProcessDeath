@@ -30,7 +30,7 @@ class LocalLanguageChangeHelper {
             } else updateResourcesLegacy(context, language)
         }
 
-        private fun getPersistedData(context: Context, defaultLanguage: String): String {
+        fun getPersistedData(context: Context, defaultLanguage: String): String {
             val preferences = context.getSharedPreferences(LANGUAGE_SHARED_PREF_FILE_NAME,Context.MODE_PRIVATE)
             return preferences.getString(SELECTED_LANGUAGE, defaultLanguage)?:defaultLanguage
         }

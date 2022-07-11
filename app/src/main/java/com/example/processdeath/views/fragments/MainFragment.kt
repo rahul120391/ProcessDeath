@@ -7,7 +7,6 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
-import androidx.core.view.forEach
 import androidx.core.view.forEachIndexed
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -45,7 +44,7 @@ class MainFragment : BaseFragment(R.layout.fragment_main), NavigationView.OnNavi
     @Inject
     lateinit var utility: Utility
 
-    private val mainAdapter by lazy { MainAdapter(onItemClick = ::onItemClick) }
+    private val mainAdapter by lazy { MainAdapter(utility = utility, stringResource = stringResource, onItemClick = ::onItemClick) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
