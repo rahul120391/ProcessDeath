@@ -2,20 +2,14 @@ package com.example.processdeath.views.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.lifecycle.lifecycleScope
 import coil.load
 import com.example.mylibrary.main.Article
 import com.example.processdeath.R
 import com.example.processdeath.databinding.LayoutRowNewsItemBinding
-import com.example.processdeath.views.extensions.setLayoutHeightUsingWidth
 import com.example.processdeath.views.utils.LifecycleRecyclerAdapter
 import com.example.processdeath.views.utils.LifecycleViewHolder
 import com.example.processdeath.views.utils.StringResource
 import com.example.processdeath.views.utils.Utility
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class MainAdapter(private val list:MutableList<Article> = mutableListOf(),
                   private val stringResource: StringResource,
@@ -31,58 +25,36 @@ class MainAdapter(private val list:MutableList<Article> = mutableListOf(),
         fun bind(article: Article,position: Int){
             binding.apply {
                   with(imgNewsPoster){
-                      setLayoutHeightUsingWidth(0.6F)
                       load(article.urlToImage){
                           placeholder(R.drawable.ic_launcher_foreground)
                           error(R.drawable.ic_launcher_foreground)
                       }
                   }
-              /*  txtSource.apply {
-                    val source = stringResource.getString(R.string.source)
-                    text = source.plus(":").plus(" ").plus(article.source?.name?:"")
-                }
-                txtTitle.apply {
-                    val title =  stringResource.getString(R.string.title)
-                    text = title.plus(":").plus(" ").plus( article.title?:"")
-                }*/
-                val loading = stringResource.getString(R.string.loading)
-                txtSource.apply {
-                    val source = stringResource.getString(R.string.source)
-                    text = source.plus(":").plus(" ").plus(loading)
-                    val sourceName = article.source?.name?:""
-                    if(sourceMap.containsKey(position)){
-                        val value = sourceMap[position]
-                        text = source.plus(":").plus(" ").plus(value)
-                    }
-                    else{
-                        lifecycleScope.launch {
-                            val languageMapper = withContext(Dispatchers.Default) {
-                                utility.getTransLater(sourceName,position).first()
-                            }
-                            sourceMap[languageMapper.source] = languageMapper.value
-                            notifyItemChanged(languageMapper.source)
-                        }
-
-                    }
-                }
-                txtTitle.apply {
-                    val title =  stringResource.getString(R.string.title)
-                    text = title.plus(":").plus(" ").plus(loading)
-                    val titleName = article.title?:""
-                    if(titleMap.containsKey(position)){
-                        val value = titleMap[position]
-                        text = title.plus(":").plus(value)
-                    }
-                    else{
-                        lifecycleScope.launch {
-                            val languageMapper = withContext(Dispatchers.Default) {
-                                utility.getTransLater(titleName, position).first()
-                            }
-                            titleMap[languageMapper.source] = languageMapper.value
-                            notifyItemChanged(languageMapper.source)
-                        }
-                    }
-                }
+                  val source = stringResource.getString(R.string.source)
+                  txtSource.text = source.plus(":").plus(" ").plus(stringResource.getString(R.string.loading))
+                  val title = stringResource.getString(R.string.title)
+                  txtTitle.text = title.plus(":").plus(" ").plus(stringResource.getString(R.string.loading))
+                  if(article.language!=utility.getCurrentSelectedLanguage()) {
+                      utility.getTransLater(Pair(position,article.source?.name?:""), sourceLanguage = article.language){
+                          val obj = list[it.first]
+                          val lang = if(it.second == article.source?.name){
+                              article.language
+                          }
+                          else{
+                              utility.getCurrentSelectedLanguage()
+                          }
+                          list[it.first] = list[it.first].copy(source = obj.source?.copy(name = it.second), language = lang)
+                          notifyItemChanged(it.first)
+                      }
+                      utility.getTransLater(Pair(position,article.title?:""), sourceLanguage = article.language){
+                          list[it.first] = list[it.first].copy(title = it.second)
+                          notifyItemChanged(it.first)
+                      }
+                  }
+                  else{
+                      txtSource.text = source.plus(":").plus(" ").plus(article.source?.name?:"")
+                      txtTitle.text = title.plus(":").plus(" ").plus(article.title)
+                  }
                   root.setOnClickListener {
                       onItemClick(list[adapterPosition])
                   }

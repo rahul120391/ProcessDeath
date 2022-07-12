@@ -20,7 +20,7 @@ class LocalLanguageChangeHelper {
         }
 
         private fun getLanguage(context: Context): String {
-            return getPersistedData(context, Locale.getDefault().language)
+            return getPersistedData(context)
         }
 
         fun setLocale(context: Context, language: String): Context {
@@ -30,7 +30,7 @@ class LocalLanguageChangeHelper {
             } else updateResourcesLegacy(context, language)
         }
 
-        fun getPersistedData(context: Context, defaultLanguage: String): String {
+        fun getPersistedData(context: Context, defaultLanguage: String = Locale.getDefault().language): String {
             val preferences = context.getSharedPreferences(LANGUAGE_SHARED_PREF_FILE_NAME,Context.MODE_PRIVATE)
             return preferences.getString(SELECTED_LANGUAGE, defaultLanguage)?:defaultLanguage
         }

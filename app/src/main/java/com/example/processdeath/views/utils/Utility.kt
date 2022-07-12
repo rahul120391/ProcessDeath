@@ -1,19 +1,14 @@
 package com.example.processdeath.views.utils
 
 import android.content.Context
-import android.content.res.Resources
 import androidx.appcompat.app.AlertDialog
 import com.example.processdeath.R
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.mlkit.common.model.DownloadConditions
-import com.google.mlkit.nl.translate.TranslateLanguage
 import com.google.mlkit.nl.translate.Translation
 import com.google.mlkit.nl.translate.TranslatorOptions
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.flow.callbackFlow
 import java.lang.ref.WeakReference
-import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -40,7 +35,8 @@ class Utility @Inject constructor(@ApplicationContext  val context:Context,val s
             R.string.ok)){
             _,_->
             onPositiveButtonClick()
-        }?.setNegativeButton("Cancel"){
+        }?.setNegativeButton(stringResource.getString(
+            R.string.cancel)){
                 _,_->
         }?.setCancelable(false)
         dialog = dialogBuilder?.create()
@@ -53,23 +49,23 @@ class Utility @Inject constructor(@ApplicationContext  val context:Context,val s
         if(dialog?.isShowing==true) dialog?.dismiss()
     }
 
-    data class LanguageMapper(val source:Int,val value:String)
-    fun getTransLater(text:String,position:Int,sourceLanguage:String = "en") = callbackFlow {
-        val targetLanguage = LocalLanguageChangeHelper.getPersistedData(context, Locale.getDefault().language)
+    fun getCurrentSelectedLanguage() = LocalLanguageChangeHelper.getPersistedData(context)
+
+    fun getTransLater(textPositionPair:Pair<Int,String>,sourceLanguage:String = "en",onResult:(Pair<Int,String>)->Unit)  {
+        val targetLanguage = getCurrentSelectedLanguage()
         val options = TranslatorOptions.Builder().setSourceLanguage(sourceLanguage).setTargetLanguage(targetLanguage).build()
         val translator = Translation.getClient(options)
-        val task = translator.downloadModelIfNeeded(DownloadConditions.Builder()
+        translator.downloadModelIfNeeded(DownloadConditions.Builder()
             .requireWifi()
             .build()).addOnSuccessListener {
-             translator.translate(text).addOnSuccessListener {
-                 trySend(LanguageMapper(position,it))
+             translator.translate(textPositionPair.second).addOnSuccessListener {
+                 onResult(Pair(textPositionPair.first,it))
              }.addOnFailureListener {
-                 trySend(LanguageMapper(position,text))
+                 onResult(textPositionPair)
              }
         }.addOnFailureListener {
-           trySend(LanguageMapper(position,text))
+            onResult(textPositionPair)
         }
-        awaitClose { task.isComplete }
     }
 
 }

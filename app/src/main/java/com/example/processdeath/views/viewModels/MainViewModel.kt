@@ -15,14 +15,13 @@ import com.example.processdeath.views.utils.Utility
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(private val loginDataStoreRepository: LoginDataStoreRepository,
                                         private val mainUseCase: MainUseCase,
-                                        private val utility: Utility,
                                         private val stringResource: StringResource,
                                         private val savedStateHandle: SavedStateHandle):BaseViewModel(){
 
@@ -90,6 +89,7 @@ class MainViewModel @Inject constructor(private val loginDataStoreRepository: Lo
         _showProgressBar.send(false)
         setResultData(result)
     }
+
 
     private suspend fun setResultData(result:Result<List<Article>>){
         if(result is Result.Success){

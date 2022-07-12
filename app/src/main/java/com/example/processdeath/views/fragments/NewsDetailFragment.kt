@@ -14,13 +14,18 @@ import com.example.processdeath.views.extensions.bold
 import com.example.processdeath.views.extensions.plus
 import com.example.processdeath.views.extensions.spannable
 import com.example.processdeath.views.extensions.viewBinding
+import com.example.processdeath.views.utils.Utility
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class NewsDetailFragment : BaseFragment(R.layout.fragment_news_detail) {
 
       private val binding by viewBinding(FragmentNewsDetailBinding::bind)
       private val args:NewsDetailFragmentArgs by navArgs()
+
+     @Inject
+     lateinit var utility: Utility
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -53,11 +58,21 @@ class NewsDetailFragment : BaseFragment(R.layout.fragment_news_detail) {
             error(R.drawable.ic_launcher_foreground)
         }
         txtTitle.text =  spannable {
-            bold(getString(R.string.title).plus(":"))
-        }.plus(" ").plus(args.article.title?:"")
+            bold(stringResource.getString(R.string.title).plus(":"))
+        }.plus(" ").plus(stringResource.getString(R.string.loading))
+        utility.getTransLater(Pair(0,args.article.title?:"")){
+            txtTitle.text =  spannable {
+                bold(stringResource.getString(R.string.title).plus(":"))
+            }.plus(" ").plus(it.second)
+        }
         txtDesc.text =   spannable {
-            bold(getString(R.string.desc).plus(":"))
-        }.plus(" ").plus(args.article.description?:"")
+            bold(stringResource.getString(R.string.desc).plus(":"))
+        }.plus(" ").plus(stringResource.getString(R.string.loading))
+        utility.getTransLater(Pair(0,args.article.description?:"")){
+            txtDesc.text =   spannable {
+                bold(stringResource.getString(R.string.desc).plus(":"))
+            }.plus(" ").plus(it.second)
+        }
     }
 }
 

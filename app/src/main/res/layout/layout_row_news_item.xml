@@ -13,11 +13,11 @@
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/imgNewsPoster"
         android:layout_width="@dimen/_0sdp"
-        android:layout_height="@dimen/_250sdp"
+        android:layout_height="@dimen/_0sdp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:adjustViewBounds="true"
+        app:layout_constraintDimensionRatio="3:2"
         app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.TopCornersOnly"
         app:srcCompat="@drawable/ic_launcher_background"
         android:scaleType="centerCrop"
