@@ -117,7 +117,7 @@ class LoginFragment : BaseFragment(R.layout.fragment_login){
                            onLogin.collectLatest {
                                message->
                                showSnackBar(message)
-                               findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToMainFragment())
+                               findNavController().navigate(R.id.action_global_mainFragment)
                            }
                        }
                 }

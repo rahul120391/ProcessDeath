@@ -82,7 +82,7 @@ class SettingsFragment:BaseFragment(R
                 viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                     launch {
                         onLogout.collectLatest {
-                            findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToLoginFragment())
+                            findNavController().navigate(R.id.action_global_loginFragment)
                         }
                     }
                     launch {

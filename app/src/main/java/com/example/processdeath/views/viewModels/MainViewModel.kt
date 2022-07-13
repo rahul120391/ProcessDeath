@@ -75,7 +75,6 @@ class MainViewModel @Inject constructor(private val loginDataStoreRepository: Lo
                     _onFetchError.send(Pair(result.first as String,result.second as Boolean))
                 }
                 else -> {
-                    println("perform fetchLatestHeadlines")
                     fetchLatestHeadlines()
                 }
             }

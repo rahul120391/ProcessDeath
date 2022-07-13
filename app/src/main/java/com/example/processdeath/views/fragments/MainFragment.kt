@@ -138,7 +138,7 @@ class MainFragment : BaseFragment(R.layout.fragment_main), NavigationView.OnNavi
                 viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.CREATED){
                     launch {
                         onLogout.collectLatest {
-                            findNavController().navigate(MainFragmentDirections.actionMainFragmentToLoginFragment())
+                            findNavController().navigate(R.id.action_global_loginFragment)
                         }
                     }
                     launch {

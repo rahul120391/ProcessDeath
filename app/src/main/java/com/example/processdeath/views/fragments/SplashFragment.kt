@@ -25,10 +25,10 @@ class SplashFragment : BaseFragment(R.layout.fragment_splash) {
             val isLoggedIn = viewModel.checkIfLoggedIn()
             delay(5000)
             if(isLoggedIn){
-                findNavController().navigate(SplashFragmentDirections.actionSplashFragmentToMainFragment())
+                findNavController().navigate(R.id.action_global_mainFragment)
             }
             else{
-                findNavController().navigate(SplashFragmentDirections.actionSplashFragmentToLoginFragment())
+                findNavController().navigate(R.id.action_global_loginFragment)
             }
         }
     }

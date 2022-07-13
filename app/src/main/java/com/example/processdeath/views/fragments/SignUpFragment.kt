@@ -132,7 +132,7 @@ class SignUpFragment : BaseFragment(R.layout.fragment_sign_up) {
                         onSignUp.collectLatest {
                                 message->
                             showSnackBar(message)
-                            findNavController().navigate(SignUpFragmentDirections.actionSignUpFragment2ToMainFragment())
+                            findNavController().navigate(R.id.action_global_mainFragment)
                         }
                     }
                 }
