@@ -60,7 +60,7 @@ class MainFragment : BaseFragment(R.layout.fragment_main), NavigationView.OnNavi
             context?.let { it1 ->
                 ContextCompat.getColor(
                     it1,R.color.md_blue_grey_800)
-            }?.let { it2 -> pbBar.root.setIndicatorColor(it2) }
+            }?.let { it2 -> pbBar.pbBar.setIndicatorColor(it2) }
             initObservers()
             viewModel.fetchHeadlines()
         }
