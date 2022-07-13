@@ -62,11 +62,11 @@ class LoginFragment : BaseFragment(R.layout.fragment_login){
             val isValid = viewModel.isValidEmail(text.toString())
             imgCorrectEmail.visible(isValid)
             if(isValid){
-                etEmail.setPadding(resources.getDimension(R.dimen._40sdp).toInt(),resources.getDimension(R.dimen._20sdp).toInt(),
+                etEmail.setPaddingRelative(resources.getDimension(R.dimen._40sdp).toInt(),resources.getDimension(R.dimen._20sdp).toInt(),
                     resources.getDimension(R.dimen._40sdp).toInt(),resources.getDimension(R.dimen._20sdp).toInt())
             }
             else{
-                etEmail.setPadding(resources.getDimension(R.dimen._15sdp).toInt(),resources.getDimension(R.dimen._20sdp).toInt(),
+                etEmail.setPaddingRelative(resources.getDimension(R.dimen._15sdp).toInt(),resources.getDimension(R.dimen._20sdp).toInt(),
                     resources.getDimension(R.dimen._40sdp).toInt(),resources.getDimension(R.dimen._20sdp).toInt())
             }
         }
@@ -80,11 +80,11 @@ class LoginFragment : BaseFragment(R.layout.fragment_login){
             val isValid = viewModel.isValidPassword(text.toString())
             imgCorrectPassword.visible(isValid)
             if(isValid){
-                etPassword.setPadding(resources.getDimension(R.dimen._40sdp).toInt(),resources.getDimension(R.dimen._20sdp).toInt(),
+                etPassword.setPaddingRelative(resources.getDimension(R.dimen._40sdp).toInt(),resources.getDimension(R.dimen._20sdp).toInt(),
                     resources.getDimension(R.dimen._40sdp).toInt(),resources.getDimension(R.dimen._20sdp).toInt())
             }
             else{
-                etPassword.setPadding(resources.getDimension(R.dimen._15sdp).toInt(),resources.getDimension(R.dimen._20sdp).toInt(),
+                etPassword.setPaddingRelative(resources.getDimension(R.dimen._15sdp).toInt(),resources.getDimension(R.dimen._20sdp).toInt(),
                     resources.getDimension(R.dimen._40sdp).toInt(),resources.getDimension(R.dimen._20sdp).toInt())
             }
         }

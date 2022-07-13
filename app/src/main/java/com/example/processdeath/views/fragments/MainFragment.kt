@@ -44,7 +44,7 @@ class MainFragment : BaseFragment(R.layout.fragment_main), NavigationView.OnNavi
     @Inject
     lateinit var utility: Utility
 
-    private val mainAdapter by lazy { MainAdapter(utility = utility, stringResource = stringResource, onItemClick = ::onItemClick) }
+    private val mainAdapter:MainAdapter by lazy {  MainAdapter(utility = utility, stringResource = stringResource, onItemClick = ::onItemClick) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -89,6 +89,7 @@ class MainFragment : BaseFragment(R.layout.fragment_main), NavigationView.OnNavi
     }
 
     override fun onDestroyView() {
+        mainAdapter.removeAllItems()
         utility.dismissDialog()
         super.onDestroyView()
     }
@@ -189,6 +190,7 @@ class MainFragment : BaseFragment(R.layout.fragment_main), NavigationView.OnNavi
             item.title = titles[index]
         }
     }
+
 
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {

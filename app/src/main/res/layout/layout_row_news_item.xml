@@ -51,6 +51,19 @@
             android:lineSpacingMultiplier="1.2"
             android:textColor="@color/md_blue_grey_800"
             android:textSize="@dimen/_18ssp"
-            />   
+            />
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/cpi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_marginBottom="@dimen/_15sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/imgNewsPoster"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:indicatorColor="@color/md_blue_grey_800"
+            android:indeterminate="true"
+            />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

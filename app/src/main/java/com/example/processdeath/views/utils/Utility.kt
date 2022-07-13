@@ -66,6 +66,7 @@ class Utility @Inject constructor(@ApplicationContext  val context:Context,val s
         }.addOnFailureListener {
             onResult(textPositionPair)
         }
+
     }
 
 }

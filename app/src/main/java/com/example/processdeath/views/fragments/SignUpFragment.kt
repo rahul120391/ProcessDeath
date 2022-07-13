@@ -9,7 +9,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.example.processdeath.R
 import com.example.processdeath.databinding.FragmentSignUpBinding
@@ -77,11 +76,11 @@ class SignUpFragment : BaseFragment(R.layout.fragment_sign_up) {
             val isValid = viewModel.isValidEmail(text.toString())
             imgCorrectEmail.visible(isValid)
             if(isValid){
-                etEmail.setPadding(resources.getDimension(R.dimen._40sdp).toInt(),resources.getDimension(R.dimen._20sdp).toInt(),
+                etEmail.setPaddingRelative(resources.getDimension(R.dimen._40sdp).toInt(),resources.getDimension(R.dimen._20sdp).toInt(),
                     resources.getDimension(R.dimen._40sdp).toInt(),resources.getDimension(R.dimen._20sdp).toInt())
             }
             else{
-                etEmail.setPadding(resources.getDimension(R.dimen._15sdp).toInt(),resources.getDimension(R.dimen._20sdp).toInt(),
+                etEmail.setPaddingRelative(resources.getDimension(R.dimen._15sdp).toInt(),resources.getDimension(R.dimen._20sdp).toInt(),
                     resources.getDimension(R.dimen._40sdp).toInt(),resources.getDimension(R.dimen._20sdp).toInt())
             }
         }
@@ -90,11 +89,11 @@ class SignUpFragment : BaseFragment(R.layout.fragment_sign_up) {
             val isValid = viewModel.isValidPassword(text.toString())
             imgCorrectPassword.visible(isValid)
             if(isValid){
-                etPassword.setPadding(resources.getDimension(R.dimen._40sdp).toInt(),resources.getDimension(R.dimen._20sdp).toInt(),
+                etPassword.setPaddingRelative(resources.getDimension(R.dimen._40sdp).toInt(),resources.getDimension(R.dimen._20sdp).toInt(),
                     resources.getDimension(R.dimen._40sdp).toInt(),resources.getDimension(R.dimen._20sdp).toInt())
             }
             else{
-                etPassword.setPadding(resources.getDimension(R.dimen._15sdp).toInt(),resources.getDimension(R.dimen._20sdp).toInt(),
+                etPassword.setPaddingRelative(resources.getDimension(R.dimen._15sdp).toInt(),resources.getDimension(R.dimen._20sdp).toInt(),
                     resources.getDimension(R.dimen._40sdp).toInt(),resources.getDimension(R.dimen._20sdp).toInt())
             }
         }
@@ -147,7 +146,7 @@ class SignUpFragment : BaseFragment(R.layout.fragment_sign_up) {
           tilHobby.hint = stringResource.getString(R.string.hobby)
           tilEmail.hint = stringResource.getString(R.string.email)
           tilPassword.hint = stringResource.getString(R.string.password)
-          btnSignUp.hint = stringResource.getString(R.string.sign_up)
+          btnSignUp.text = stringResource.getString(R.string.sign_up)
     }
 
 }

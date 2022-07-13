@@ -46,7 +46,7 @@ class ChooseLanguageFragment : BaseFragment(R.layout.fragment_choose_language) {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(context)
             addItemDecoration(DividerItemDecoration(context, RecyclerView.VERTICAL))
-            adapter = LanguageAdapter(listOf(Pair("English","en"),Pair("Hindi","hi"), Pair("Punjabi","pa"),
+            adapter = LanguageAdapter(listOf(Pair("English","en"),Pair("Hindi","hi"), Pair("Hebrew","he"),
                 Pair("Arabic","ar")
             ),::onItemClick)
         }
@@ -57,6 +57,7 @@ class ChooseLanguageFragment : BaseFragment(R.layout.fragment_choose_language) {
             val context = LocalLanguageChangeHelper.setLocale(it,item.second)
             (activity as MainActivity).apply {
                 stringResource.setResource(context.resources)
+                activity?.window?.decorView?.layoutDirection = context.resources.configuration.layoutDirection
                 onBackPressed()
             }
         }

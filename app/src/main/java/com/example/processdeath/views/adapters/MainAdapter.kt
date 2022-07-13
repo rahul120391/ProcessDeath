@@ -6,6 +6,7 @@ import coil.load
 import com.example.mylibrary.main.Article
 import com.example.processdeath.R
 import com.example.processdeath.databinding.LayoutRowNewsItemBinding
+import com.example.processdeath.views.extensions.visible
 import com.example.processdeath.views.utils.LifecycleRecyclerAdapter
 import com.example.processdeath.views.utils.LifecycleViewHolder
 import com.example.processdeath.views.utils.StringResource
@@ -31,27 +32,32 @@ class MainAdapter(private val list:MutableList<Article> = mutableListOf(),
                       }
                   }
                   val source = stringResource.getString(R.string.source)
-                  txtSource.text = source.plus(":").plus(" ").plus(stringResource.getString(R.string.loading))
+                  txtSource.text = ""
                   val title = stringResource.getString(R.string.title)
-                  txtTitle.text = title.plus(":").plus(" ").plus(stringResource.getString(R.string.loading))
+                  txtTitle.text = ""
+                  cpi.visible(true)
                   if(article.language!=utility.getCurrentSelectedLanguage()) {
-                      utility.getTransLater(Pair(position,article.source?.name?:""), sourceLanguage = article.language){
-                          val obj = list[it.first]
-                          val lang = if(it.second == article.source?.name){
-                              article.language
+                      utility.getTransLater(Pair(position,(article.source?.name?:"").plus("|").plus(article.title?:"")),
+                          sourceLanguage = article.language){
+                          cpi.visible(false)
+                          if(list.getOrNull(it.first)!=null){
+                              val obj = list[it.first]
+                              val text = it.second.split("|")
+                              val sourceText = text.getOrNull(0)?:""
+                              val titleText = text.getOrNull(1)?:""
+                              val lang = if(sourceText == article.source?.name){
+                                  article.language
+                              }
+                              else{
+                                  utility.getCurrentSelectedLanguage()
+                              }
+                              list[it.first] = list[it.first].copy(source = obj.source?.copy(name = sourceText), title = titleText, language = lang)
+                              notifyItemChanged(it.first)
                           }
-                          else{
-                              utility.getCurrentSelectedLanguage()
-                          }
-                          list[it.first] = list[it.first].copy(source = obj.source?.copy(name = it.second), language = lang)
-                          notifyItemChanged(it.first)
-                      }
-                      utility.getTransLater(Pair(position,article.title?:""), sourceLanguage = article.language){
-                          list[it.first] = list[it.first].copy(title = it.second)
-                          notifyItemChanged(it.first)
                       }
                   }
                   else{
+                      cpi.visible(false)
                       txtSource.text = source.plus(":").plus(" ").plus(article.source?.name?:"")
                       txtTitle.text = title.plus(":").plus(" ").plus(article.title)
                   }
@@ -76,6 +82,13 @@ class MainAdapter(private val list:MutableList<Article> = mutableListOf(),
             clear()
             addAll(newData)
             notifyItemRangeInserted(0,newData.size)
+        }
+    }
+
+    fun removeAllItems(){
+        with(list){
+            clear()
+            notifyItemRangeRemoved(0,size)
         }
     }
 }
